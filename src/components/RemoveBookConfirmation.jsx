@@ -1,4 +1,15 @@
-function RemoveBookConfirmation({ book, onClose }) {
+function RemoveBookConfirmation({ book, onClose, refreshBooks }) {
+
+  async function removeBook() {
+    await fetch(`http://localhost:5000/api/books/${book.id}`, {
+        method: "DELETE",
+    });
+
+    await refreshBooks();
+
+    onClose();
+  }
+
   return (
     <div id="modal-overlay">
       <div id="add-book-confirmation">
@@ -10,7 +21,7 @@ function RemoveBookConfirmation({ book, onClose }) {
 
         <button onClick={onClose}> Cancel </button>
 
-        <button onClick={onClose}> Remove </button>
+        <button onClick={removeBook}> Remove </button>
 
       </div>
     </div>

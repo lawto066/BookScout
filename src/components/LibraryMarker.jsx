@@ -1,11 +1,11 @@
 import { Marker, Popup } from 'react-leaflet'
 import { useNavigate } from 'react-router-dom'
 
-function LibraryMarker() {
+function LibraryMarker({ library }) {
   const navigate = useNavigate();
 
   return (
-    <Marker position={[44.9778, -93.2650]} eventHandlers={{click: () => navigate('/library')}}>
+    <Marker position={[library.latitude, library.longitude]} eventHandlers={{click: () => navigate('/library', { state: library })}}>
 
       <Popup> Little Free Library </Popup>
 

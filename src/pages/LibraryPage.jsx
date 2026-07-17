@@ -1,63 +1,35 @@
 import Navbar from '../components/Navbar'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+
 import AddBookConfirmation from '../components/AddBookConfirmation'
 import RemoveBookConfirmation from '../components/RemoveBookConfirmation'
 
-// TEMP DATA
-import lotr from '../assets/books/lotr.jpeg'
-import akotsk from '../assets/books/akotsk.jpeg'
-import wtwta from '../assets/books/wtwta.jpeg'
-import tgg from '../assets/books/tgg.jpeg'
-// END TEMP DATA
 
 function LibraryPage() {
-    // TEMP DATA
-    const library = {
-        name: "Hoboken Hobo's Book Nook",
-        location: "123 Oak Street",
-        books: [
-        {
-            title: "The Lord of the Rings: The Fellowship of the Ring",
-            author: "J.R.R. Tolkien",
-            year: 1954,
-            genre: "Fantasy",
-            synopsis: "A young hobbit named Frodo inherits a powerful ring and begins a dangerous journey to destroy it before it falls into the hands of the Dark Lord Sauron.",
-            image: lotr
-        },
-        {
-            title: "A Knight of the Seven Kingdoms",
-            author: "George R.R. Martin",
-            year: 2015,
-            genre: "Fantasy",
-            synopsis: "A collection of three adventures following the hedge knight Dunk and his young squire Egg as they travel through the world of Westeros.",
-            image: akotsk
-        },
-        {
-            title: "Where the Wild Things Are",
-            author: "Maurice Sendak",
-            year: 1963,
-            genre: "Children's Fantasy",
-            synopsis: "A young boy named Max sails away to a mysterious island inhabited by wild creatures and discovers a world of imagination and adventure.",
-            image: wtwta
-        },
-        {
-            title: "The Great Gatsby",
-            author: "F. Scott Fitzgerald",
-            year: 1925,
-            genre: "Classic Fiction",
-            synopsis: "A mysterious millionaire throws extravagant parties while pursuing a lost love during the Jazz Age in 1920s America.",
-            image: tgg
-        }
-        ]
-    }
-    // END TEMP DATA
-
+    const [books, setBooks] = useState([]);
     const navigate = useNavigate();
 
     const [showAddBook, setShowAddBook] = useState(false);
     const [removeMode, setRemoveMode] = useState(false);
     const [bookToRemove, setBookToRemove] = useState(null);
+
+    const location = useLocation();
+    const library = location.state;
+
+    useEffect(() => {
+        fetch("http://localhost:5000/api/books")
+            .then(response => response.json())
+            .then(data => setBooks(data))
+            .catch(error => console.error(error));
+    }, []);
+
+    async function refreshBooks() {
+        const response = await fetch("http://localhost:5000/api/books");
+        const data = await response.json();
+        setBooks(data);
+    }
+
 
     return (
         <div id="library-page">
@@ -69,10 +41,11 @@ function LibraryPage() {
             </div>
 
             <div id="book-list">
-                {library.books.map((book) => (
-                    <div className="book-card" key={book.title} onClick={() => navigate('/book', { state: book })}>
+                {books.map((book) => ( 
+                    
+                    <div className="book-card" key={book.id} onClick={() => navigate('/book', { state: book })}>
                         {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book)}} id="remove-book-x">×</button>}
-                        <img src={book.image} alt={book.title} />
+                        <img src={`/src/assets/books/${book?.cover_image}`} alt={book.title} />
                         <p>{book.title}</p>
                     </div>
                 ))}
@@ -83,9 +56,9 @@ function LibraryPage() {
                 <button onClick={() => setRemoveMode(true)}>Remove Book</button>
             </div>
 
-            {showAddBook && (<AddBookConfirmation onClose={() => setShowAddBook(false)}/>)}
+            {showAddBook && (<AddBookConfirmation onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
 
-            {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)}/>)}
+            {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)} refreshBooks={refreshBooks}/>)}
                 
         </div>
     )
