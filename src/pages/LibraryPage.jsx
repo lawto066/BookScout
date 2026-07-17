@@ -45,7 +45,7 @@ function LibraryPage() {
                     
                     <div className="book-card" key={book.id} onClick={() => navigate('/book', { state: book })}>
                         {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book)}} id="remove-book-x">×</button>}
-                        <img src={`/src/assets/books/${book?.cover_image}`} alt={book.title} />
+                        <img src={`/books/${book?.cover_image}`} alt={book.title} />
                         <p>{book.title}</p>
                     </div>
                 ))}
