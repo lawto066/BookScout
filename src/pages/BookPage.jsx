@@ -10,7 +10,7 @@ function BookPage() {
         <Navbar showBack />
 
         <div id="book-details">
-        <img src={book.image} alt={book.title} />
+        <img src={`/books/${book.cover_image}`} alt={book.title} />
 
         <h1>{book.title}</h1>
 

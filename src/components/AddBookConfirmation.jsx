@@ -1,4 +1,4 @@
-import akotsk from '../assets/books/akotsk.jpeg'
+import akotsk from '/public/books/akotsk.jpeg'
 
 function AddBookConfirmation({ onClose, refreshBooks }) {
   const book = {
