@@ -6,17 +6,16 @@ import AddLibraryForm from '../components/AddLibraryForm'
 import { useState } from 'react'
 
 function MapPage() {
-    // const navigate = useNavigate();
-
     const [showAddLibrary, setShowAddLibrary] = useState(false);
+    const [refreshMap, setRefreshMap] = useState(false);
 
     return (
         <div>
             <Navbar />
 
-            <Map />
+            <Map refreshMap={refreshMap} />
 
-            {showAddLibrary && <AddLibraryForm setShowAddLibrary={setShowAddLibrary} />}
+            {showAddLibrary && <AddLibraryForm setShowAddLibrary={setShowAddLibrary} setRefreshMap={setRefreshMap} />}
 
             <button id="add-library-button" onClick={() => setShowAddLibrary(true)}>
                 Add Library

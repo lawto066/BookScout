@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 import AddBookConfirmation from '../components/AddBookConfirmation'
 import RemoveBookConfirmation from '../components/RemoveBookConfirmation'
 
+import RemoveLibraryConfirmation from '../components/RemoveLibraryConfirmation'
+
 
 function LibraryPage() {
     const [books, setBooks] = useState([]);
@@ -13,19 +15,20 @@ function LibraryPage() {
     const [showAddBook, setShowAddBook] = useState(false);
     const [removeMode, setRemoveMode] = useState(false);
     const [bookToRemove, setBookToRemove] = useState(null);
+    const [removeLibrary, setRemoveLibrary] = useState(false);
 
     const location = useLocation();
     const library = location.state;
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/books")
+        fetch(`/api/books/${library.id}`)
             .then(response => response.json())
             .then(data => setBooks(data))
             .catch(error => console.error(error));
     }, []);
 
     async function refreshBooks() {
-        const response = await fetch("http://localhost:5000/api/books");
+        const response = await fetch(`/api/books/${library.id}`);
         const data = await response.json();
         setBooks(data);
     }
@@ -37,7 +40,7 @@ function LibraryPage() {
 
             <div id="library-header">
                 <h1>{library.name}</h1>
-                <p>{library.location}</p>
+                <p>{library.location_name}</p>
             </div>
 
             <div id="book-list">
@@ -54,11 +57,14 @@ function LibraryPage() {
             <div id="book-actions">
                 <button onClick={() => setShowAddBook(true)}>Add Book</button>
                 <button onClick={() => setRemoveMode(true)}>Remove Book</button>
+                <button onClick={() => setRemoveLibrary(true)}> Remove Library </button>
             </div>
 
-            {showAddBook && (<AddBookConfirmation onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
+            {showAddBook && (<AddBookConfirmation libraryId={library.id} onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
 
             {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)} refreshBooks={refreshBooks}/>)}
+
+            {removeLibrary && (<RemoveLibraryConfirmation library={library} onClose={() => setRemoveLibrary(false)} navigate={navigate}/>)}
                 
         </div>
     )

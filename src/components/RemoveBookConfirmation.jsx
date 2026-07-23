@@ -1,7 +1,7 @@
 function RemoveBookConfirmation({ book, onClose, refreshBooks }) {
 
   async function removeBook() {
-    await fetch(`http://localhost:5000/api/books/${book.id}`, {
+    await fetch(`/api/books/${book.id}`, {
         method: "DELETE",
     });
 
@@ -13,7 +13,7 @@ function RemoveBookConfirmation({ book, onClose, refreshBooks }) {
   return (
     <div id="modal-overlay">
       <div id="add-book-confirmation">
-        <img src={book.image} alt={book.title} />
+        <img src={`/books/${book.cover_image}`} alt={book.title} />
 
         <h2>{book.title}</h2>
 

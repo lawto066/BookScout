@@ -385,3 +385,35 @@ h2 {
 
   z-index: 10;
 }
+
+#form-error {
+  color: red;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+#location-container {
+    position: relative;
+}
+
+#location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+#location-suggestions div {
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+#location-suggestions div:hover {
+    background-color: #f2f2f2;
+}

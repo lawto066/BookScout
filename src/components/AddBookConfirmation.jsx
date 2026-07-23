@@ -1,19 +1,19 @@
 import akotsk from '/public/books/akotsk.jpeg'
 
-function AddBookConfirmation({ onClose, refreshBooks }) {
+function AddBookConfirmation({ libraryId, onClose, refreshBooks }) {
   const book = {
     title: "A Knight of the Seven Kingdoms",
     image: akotsk
   }
 
   async function addBook() {
-    await fetch("http://localhost:5000/api/books/", {
+    await fetch("/api/books/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            library_id: 1,
+            library_id: libraryId,
             title: "A Knight of the Seven Kingdoms",
             author: "George R.R. Martin",
             publication_year: 2015,

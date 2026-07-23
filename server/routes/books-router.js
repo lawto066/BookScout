@@ -3,9 +3,15 @@ import pool from "../database.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/:library_id", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM books");
+        const { library_id } = req.params;
+
+        const result = await pool.query(
+            "SELECT * FROM books WHERE library_id = $1",
+            [library_id]
+        );
+        
         res.json(result.rows);
     } catch (error) {
         console.error(error);
