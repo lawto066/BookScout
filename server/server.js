@@ -14,16 +14,8 @@ app.use("/api/libraries", libraryRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/location", locationRoutes);
 
-app.use(express.static("../dist"));
-
-app.get("/{*splat}", (req, res) => {
-    res.sendFile("index.html", { root: "../dist" });
-});
-
 const PORT = 5000;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-// relative url / variable

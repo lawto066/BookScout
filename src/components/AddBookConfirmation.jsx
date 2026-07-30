@@ -1,11 +1,4 @@
-import akotsk from '/public/books/akotsk.jpeg'
-
-function AddBookConfirmation({ libraryId, onClose, refreshBooks }) {
-  const book = {
-    title: "A Knight of the Seven Kingdoms",
-    image: akotsk
-  }
-
+function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
   async function addBook() {
     await fetch("/api/books/", {
         method: "POST",
@@ -13,26 +6,26 @@ function AddBookConfirmation({ libraryId, onClose, refreshBooks }) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            library_id: libraryId,
-            title: "A Knight of the Seven Kingdoms",
-            author: "George R.R. Martin",
-            publication_year: 2015,
-            genre: "Fantasy",
-            synopsis: "A collection of three novellas following the adventures of Dunk and Egg in the world of Westeros.",
-            isbn: "9780345539120",
-            cover_image: "akotsk.jpeg"
-        }),
+          library_id: libraryId,
+          title: book.title,
+          author: book.author,
+          publication_year: book.publication_year,
+          genre: book.genre,
+          synopsis: book.synopsis,
+          isbn: book.isbn,
+          cover_image: book.cover_image
+      }),
     });
 
     await refreshBooks();
 
     onClose();
-}
+  }
 
   return (
     <div id="modal-overlay">
       <div id="add-book-confirmation">
-        <img src={book.image} alt={book.title} />
+        <img src={book.cover_image?.startsWith("http") ? book.cover_image : `/books/${book.cover_image}` } alt={book.title} />
 
         <h2>{book.title}</h2>
 
