@@ -1,4 +1,5 @@
 function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
+
   async function addBook() {
     await fetch("/api/books/", {
         method: "POST",
@@ -25,7 +26,7 @@ function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
   return (
     <div id="modal-overlay">
       <div id="add-book-confirmation">
-        <img src={book.cover_image?.startsWith("http") ? book.cover_image : `/books/${book.cover_image}` } alt={book.title} />
+        <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
 
         <h2>{book.title}</h2>
 

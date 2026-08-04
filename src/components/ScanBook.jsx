@@ -1,15 +1,17 @@
 import { useRef, useState } from "react";
 
-function ScanBook({ setBookToAdd, setShowAddBook }) {
+import { BarcodeDetectorPolyfill } from "@undecaf/barcode-detector-polyfill";
+
+function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook }) {
   const videoRef = useRef(null);
   const [status, setStatus] = useState("");
   const [scanning, setScanning] = useState(false);
 
+
   async function startScanner() {
     // Step 1: Check if browser supports BarcodeDetector API
     if (!("BarcodeDetector" in window)) {
-      setStatus("Barcode scanner not supported");
-      return;
+      window.BarcodeDetector = BarcodeDetectorPolyfill;
     }
 
     // Step 2: Open camera
@@ -58,33 +60,42 @@ function ScanBook({ setBookToAdd, setShowAddBook }) {
             if (barcodes.length > 0) {
                 // Step 5: get isbn found // The hobbit isbn
                 const isbn = barcodes[0].rawValue;
-                //   const isbn = "9780547928227";
+                // const isbn = "9780547928227";
 
                 // Step 6: Use fetch to get API isbn response
-                const response = await fetch( `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=10&key=${import.meta.env.VITE_GOOGLE_BOOKS_KEY}`);
 
                 const data = await response.json();
-                console.log("Open Library response:", data);
 
-                const bookData = data[`ISBN:${isbn}`];
+                const bookData = data.items?.[0]?.volumeInfo;
 
                 if (bookData) {
                     // Step 7: Convert book info to BookScout format
                     setBookToAdd({
                         title: bookData.title,
-                        author: bookData.authors?.[0]?.name || "Unknown",
-                        publication_year: bookData.publish_date || null,
-                        genre: "",
-                        synopsis: "",
+                        author: bookData.authors?.[0] || "Unknown",
+                        publication_year: bookData.publishedDate ? bookData.publishedDate.substring(0, 4) : null,
+                        genre: bookData.categories?.join(", ") || "",                        
+                        synopsis: bookData.description?.value || bookData.description || bookData.excerpts?.[0]?.text || "No synopsis available",
                         isbn: isbn,
-                        cover_image: `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
+                        cover_image: bookData.imageLinks?.thumbnail || ""
                     });
 
                     // Step 8: Show book information in confirmation popup 
                     // User confirms information and is sent to BookScout database via AddBookConfirmatio.jsx
                     setShowAddBook(true);
                 } else {
-                    console.log("No book found for ISBN:", isbn);
+                    setBookToAdd({
+                        title: "",
+                        author: "",
+                        publication_year: "",
+                        genre: "",
+                        synopsis: "",
+                        isbn: isbn,
+                        cover_image: ""
+                    });
+
+                    setShowManualAddBook(true);
                 }
 
                 setStatus("Book found!");

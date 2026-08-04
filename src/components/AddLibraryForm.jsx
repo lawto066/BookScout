@@ -2,7 +2,7 @@ import { useState } from "react";
 import LocationAutocomplete from "../components/LocationAutocomplete"
 
 
-function AddLibraryForm({ setShowAddLibrary, setRefreshMap }) {
+function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
   const [name, setName] = useState("");
   const [location_name, setLocation] = useState("");
   const [charterNumber, setCharterNumber] = useState("");
@@ -10,10 +10,18 @@ function AddLibraryForm({ setShowAddLibrary, setRefreshMap }) {
   const [longitude, setLongitude] = useState(null);
   const [error, setError] = useState("");
 
-  function getLocation() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
+  async function getLocation() {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      setLatitude(lat);
+      setLongitude(lon);
+
+      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+      const data = await response.json();
+
+      setLocation(data.display_name);
     });
   }
 

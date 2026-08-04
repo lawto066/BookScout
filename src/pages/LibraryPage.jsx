@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 import AddBookConfirmation from '../components/AddBookConfirmation'
+import ManualAddBook from '../components/ManualAddBook'
 import RemoveBookConfirmation from '../components/RemoveBookConfirmation'
 import RemoveLibraryConfirmation from '../components/RemoveLibraryConfirmation'
 import ScanBook from '../components/ScanBook'
@@ -13,6 +14,7 @@ function LibraryPage() {
     const navigate = useNavigate();
 
     const [showAddBook, setShowAddBook] = useState(false);
+    const [showManualAddBook, setShowManualAddBook] = useState(false);
     const [removeMode, setRemoveMode] = useState(false);
 
     const [bookToAdd, setBookToAdd] = useState(null);
@@ -39,14 +41,13 @@ function LibraryPage() {
         setBooks(data);
     }
 
-
     return (
         <div id="library-page">
             <Navbar showBack />
 
             <div id="library-header">
                 <h1>{library.name}</h1>
-                <p>{library.location_name}</p>
+                <p>{library.location_name.split(",").slice(0, 3).join(",")}</p>
             </div>
 
             <div id="book-list">
@@ -54,19 +55,21 @@ function LibraryPage() {
                     
                     <div className="book-card" key={book.id} onClick={() => navigate('/book', { state: book })}>
                         {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book)}} id="remove-book-x">×</button>}
-                        <img src={book.cover_image?.startsWith("http") ? book.cover_image : `/books/${book.cover_image}` } alt={book.title} />
+                        <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
                         <p>{book.title}</p>
                     </div>
                 ))}
             </div>
 
             <div id="book-actions">
-                <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook}/>
+                <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook}/>
                 <button onClick={() => setRemoveMode(true)}>Remove Book</button>
                 <button onClick={() => setRemoveLibrary(true)}> Remove Library </button>
             </div>
 
             {showAddBook && bookToAdd && (<AddBookConfirmation libraryId={library.id} book={bookToAdd} onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
+
+            {showManualAddBook && <ManualAddBook libraryId={library.id} book={bookToAdd} setBookToAdd={setBookToAdd} setShowManualAddBook={setShowManualAddBook} refreshBooks={refreshBooks} />}
 
             {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)} refreshBooks={refreshBooks}/>)}
 
