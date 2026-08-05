@@ -1,12 +1,11 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { useMap } from "react-leaflet";
 import L from "leaflet";
 import LibraryMarker from './LibraryMarker'
 import { useEffect, useState } from 'react'
 
 
-function Map({ refreshMap }) {
+function Map({ refreshMap, removeMode, setLibraryToRemove }) {
   const [libraries, setLibraries] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
 
@@ -41,7 +40,7 @@ function Map({ refreshMap }) {
 
       <MarkerClusterGroup iconCreateFunction={clusterIcon}>
         {libraries.map((library) => (
-          <LibraryMarker key={library.id} library={library} />
+          <LibraryMarker key={library.id} library={library} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} />
         ))}
       </MarkerClusterGroup>
 

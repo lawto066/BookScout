@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import AddBookConfirmation from '../components/AddBookConfirmation'
 import ManualAddBook from '../components/ManualAddBook'
 import RemoveBookConfirmation from '../components/RemoveBookConfirmation'
-import RemoveLibraryConfirmation from '../components/RemoveLibraryConfirmation'
+
 import ScanBook from '../components/ScanBook'
 
 
@@ -21,7 +21,6 @@ function LibraryPage() {
 
 
     const [bookToRemove, setBookToRemove] = useState(null);
-    const [removeLibrary, setRemoveLibrary] = useState(false);
 
     // FIX
     const location = useLocation();
@@ -54,7 +53,7 @@ function LibraryPage() {
                 {books.map((book) => ( 
                     
                     <div className="book-card" key={book.id} onClick={() => navigate('/book', { state: book })}>
-                        {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book)}} id="remove-book-x">×</button>}
+                        {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book)}} id="remove-x">×</button>}
                         <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
                         <p>{book.title}</p>
                     </div>
@@ -62,9 +61,8 @@ function LibraryPage() {
             </div>
 
             <div id="book-actions">
+                <button id="remove-book-button" onClick={() => setRemoveMode(!removeMode)}>{removeMode ? "Done" : "Remove Books"}</button>
                 <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook}/>
-                <button onClick={() => setRemoveMode(true)}>Remove Book</button>
-                <button onClick={() => setRemoveLibrary(true)}> Remove Library </button>
             </div>
 
             {showAddBook && bookToAdd && (<AddBookConfirmation libraryId={library.id} book={bookToAdd} onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
@@ -73,7 +71,6 @@ function LibraryPage() {
 
             {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)} refreshBooks={refreshBooks}/>)}
 
-            {removeLibrary && (<RemoveLibraryConfirmation library={library} onClose={() => setRemoveLibrary(false)} navigate={navigate}/>)}
                 
         </div>
     )

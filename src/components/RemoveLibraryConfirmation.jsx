@@ -1,11 +1,12 @@
-function RemoveLibraryConfirmation({ library, onClose, navigate }) {
+function RemoveLibraryConfirmation({ library, onClose, refreshMap }) {
 
   async function removeLibrary() {
     await fetch(`/api/libraries/${library.id}`, {
       method: "DELETE",
     });
 
-    navigate("/");
+    refreshMap(prev => !prev);
+    onClose();
   }
 
   return (
