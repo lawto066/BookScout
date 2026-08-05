@@ -6,6 +6,21 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook }) {
   const videoRef = useRef(null);
   const [status, setStatus] = useState("");
   const [scanning, setScanning] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
+
+  function stopScanner() {
+    if (videoRef.current?.srcObject) {
+      videoRef.current.srcObject
+        .getTracks()
+        .forEach((track) => track.stop());
+
+      videoRef.current.srcObject = null;
+    }
+
+    setScanning(false);
+    setCameraReady(false);
+    setStatus("");
+  }
 
 
   async function startScanner() {
@@ -101,8 +116,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook }) {
                 setStatus("Book found!");
 
                 // Step 9: Stop camera after successful scan
-                stream.getTracks().forEach((track) => track.stop());
-                setScanning(false);
+                stopScanner();
 
                 return;
             }
@@ -131,10 +145,25 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook }) {
 
       {scanning && (
         <div id="scanner-overlay">
-          <video ref={videoRef} autoPlay playsInline />
-          <p>{status}</p>
+          <video ref={videoRef} autoPlay playsInline onCanPlay={() => setCameraReady(true)} />
+
+          {cameraReady && (
+            <>
+              <div className="scan-box"></div>
+
+              <p id="scan-status">{status}</p>
+
+              <div className="scanner-buttons">
+                <button onClick={stopScanner}>Cancel</button>
+
+                <button onClick={() => { stopScanner(); setShowManualAddBook(true);}}>Add Manually</button>
+              </div>
+            </>
+          )}
         </div>
       )}
+
+
     </>
   );
 }
