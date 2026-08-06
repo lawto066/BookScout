@@ -4,21 +4,31 @@ import pool from "../database.js";
 const router = express.Router();
 
 router.get("/:library_id", async (req, res) => {
-    console.log("Book route genres:", req.query.genres);
-    
+
     try {
         const { library_id } = req.params;
 
-        const { genres } = req.query;
+        const { genres, query } = req.query;
 
         let result;
 
-        if (genres) {
-            const genreList = genres.split(",");
-
+        if (genres || query) {
             result = await pool.query(
-                "SELECT * FROM books WHERE library_id = $1 AND genre = ANY($2)",
-                [library_id, genreList]
+                `
+                SELECT * 
+                FROM books 
+                WHERE library_id = $1
+                AND (
+                    ($2::text[] IS NULL OR genre = ANY($2))
+                    AND
+                    ($3::text IS NULL OR title ILIKE $3 OR author ILIKE $3)
+                )
+                `,
+                [
+                    library_id,
+                    genres ? genres.split(",") : null,
+                    query ? `%${query}%` : null
+                ]
             );
         } else {
             result = await pool.query(

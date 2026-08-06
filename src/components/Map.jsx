@@ -5,15 +5,24 @@ import LibraryMarker from './LibraryMarker'
 import { useEffect, useState } from 'react'
 
 
-function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres  }) {
+function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selectedQuery }) {
   const [libraries, setLibraries] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
 
   useEffect(() => {
     let url = "/api/libraries";
+    let params = [];
 
     if (selectedGenres.length > 0) {
-      url += `?genres=${selectedGenres.join(",")}`;
+      params.push(`genres=${selectedGenres.join(",")}`);
+    }
+
+    if (selectedQuery.length > 0) {
+      params.push(`query=${selectedQuery}`);
+    }
+
+    if (params.length > 0) {
+      url += `?${params.join("&")}`;
     }
 
     fetch(url)
@@ -21,7 +30,7 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres  }) {
       .then(data => setLibraries(data))
       .catch(error => console.error(error));
 
-  }, [refreshMap, selectedGenres]);
+  }, [refreshMap, selectedGenres, selectedQuery]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition( 
@@ -52,7 +61,7 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres  }) {
 
         <MarkerClusterGroup iconCreateFunction={clusterIcon}>
           {libraries.map((library) => (
-            <LibraryMarker key={library.id} library={library} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} selectedGenres={selectedGenres} />
+            <LibraryMarker key={library.id} library={library} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} selectedGenres={selectedGenres} selectedQuery={selectedQuery} />
           ))}
         </MarkerClusterGroup>
 

@@ -25,7 +25,7 @@ function LibraryPage() {
 
     // FIX
     const location = useLocation();
-    const { library, selectedGenres } = location.state;
+    const { library, selectedGenres, selectedQuery } = location.state;
     // END FIX
 
     useEffect(() => {
@@ -35,6 +35,10 @@ function LibraryPage() {
             url += `?genres=${selectedGenres.join(",")}`;
         }
 
+        if (selectedQuery) {
+            url += `${selectedGenres.length > 0 ? "&" : "?"}query=${selectedQuery}`;
+        }
+        
         fetch(url)
             .then(response => response.json())
             .then(data => setBooks(data))

@@ -5,21 +5,22 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        const { genres } = req.query;
+        const { genres, query } = req.query;
 
         let result;
 
-        if (genres) {
-            const genreList = genres.split(",");
-
+        if (genres || query) {
             result = await pool.query(
                 `
                 SELECT DISTINCT libraries.*
                 FROM libraries
                 JOIN books ON books.library_id = libraries.id
-                WHERE books.genre = ANY($1)
+                WHERE 
+                    ($1::text[] IS NULL OR books.genre = ANY($1))
+                    AND
+                    ($2::text IS NULL OR books.title ILIKE $2 OR books.author ILIKE $2)
                 `,
-                [genreList]
+                [genres ? genres.split(",") : null, query ? `%${query}%` : null]
             );
 
         } else {

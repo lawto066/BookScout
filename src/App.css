@@ -261,6 +261,58 @@ h2 {
   cursor: pointer;
 }
 
+#search-results-dropdown {
+    position: absolute;
+
+    top: 60px;
+    left: 0;
+
+    width: 100%;
+
+    background: white;
+
+    border-radius: 12px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+    overflow: hidden;
+
+    z-index: 1000;
+}
+
+
+.search-result {
+    padding: 10px 14px;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid #eee;
+}
+
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+
+.search-result:hover {
+    background: #f3f3f3;
+}
+
+
+.search-result p {
+    margin: 0;
+
+    font-weight: bold;
+}
+
+
+.search-result span {
+    font-size: 0.85rem;
+
+    color: #666;
+}
+
 /* =========================
    AddLibraryForm.jsx
 ========================= */

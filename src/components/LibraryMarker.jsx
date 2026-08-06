@@ -20,7 +20,7 @@ const removeLibraryIcon = new L.DivIcon({
   className: "custom-library-icon",
 });
 
-function LibraryMarker({ library, removeMode, setLibraryToRemove, selectedGenres  }) {
+function LibraryMarker({ library, removeMode, setLibraryToRemove, selectedGenres, selectedQuery  }) {
   const navigate = useNavigate();
 
   return (
@@ -31,7 +31,7 @@ function LibraryMarker({ library, removeMode, setLibraryToRemove, selectedGenres
         if (removeMode) { 
           setLibraryToRemove(library) 
         } else { 
-          navigate('/library', { state: { library, selectedGenres } })
+          navigate('/library', { state: { library, selectedGenres, selectedQuery }  })
         }
       }}}
     >
