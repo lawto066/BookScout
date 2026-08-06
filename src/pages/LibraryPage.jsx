@@ -25,14 +25,21 @@ function LibraryPage() {
 
     // FIX
     const location = useLocation();
-    const library = location.state;
+    const { library, selectedGenres } = location.state;
     // END FIX
 
     useEffect(() => {
-        fetch(`/api/books/${library.id}`)
+        let url = `/api/books/${library.id}`;
+
+        if (selectedGenres.length > 0) {
+            url += `?genres=${selectedGenres.join(",")}`;
+        }
+
+        fetch(url)
             .then(response => response.json())
             .then(data => setBooks(data))
             .catch(error => console.error(error));
+
     }, []);
 
     async function refreshBooks() {
@@ -40,8 +47,6 @@ function LibraryPage() {
         const data = await response.json();
         setBooks(data);
     }
-
-    console.log("Manual popup state:", showManualAddBook, bookToAdd);
 
     return (
         <div id="library-page">

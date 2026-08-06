@@ -5,8 +5,31 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM libraries");
+        const { genres } = req.query;
+
+        let result;
+
+        if (genres) {
+            const genreList = genres.split(",");
+
+            result = await pool.query(
+                `
+                SELECT DISTINCT libraries.*
+                FROM libraries
+                JOIN books ON books.library_id = libraries.id
+                WHERE books.genre = ANY($1)
+                `,
+                [genreList]
+            );
+
+        } else {
+            result = await pool.query(
+                "SELECT * FROM libraries"
+            );
+        }
+
         res.json(result.rows);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Database error" });
@@ -14,7 +37,6 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    console.log(req.body)
     try {
         const { name, location_name, charter_number, latitude, longitude } = req.body;
 

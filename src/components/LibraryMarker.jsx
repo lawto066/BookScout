@@ -1,8 +1,6 @@
-import { Marker, Popup } from 'react-leaflet'
+import { Marker } from 'react-leaflet'
 import { useNavigate } from 'react-router-dom'
 import L from "leaflet";
-import { useState } from "react";
-import RemoveLibraryConfirmation from "./RemoveLibraryConfirmation";
 
 const libraryIcon = new L.Icon({
   iconUrl: "/library.png",
@@ -22,7 +20,7 @@ const removeLibraryIcon = new L.DivIcon({
   className: "custom-library-icon",
 });
 
-function LibraryMarker({ library, removeMode, setLibraryToRemove }) {
+function LibraryMarker({ library, removeMode, setLibraryToRemove, selectedGenres  }) {
   const navigate = useNavigate();
 
   return (
@@ -33,7 +31,7 @@ function LibraryMarker({ library, removeMode, setLibraryToRemove }) {
         if (removeMode) { 
           setLibraryToRemove(library) 
         } else { 
-          navigate('/library', { state: library })
+          navigate('/library', { state: { library, selectedGenres } })
         }
       }}}
     >

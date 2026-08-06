@@ -2,8 +2,8 @@ import Navbar from '../components/Navbar'
 import Map from '../components/Map'
 import AddLibraryForm from '../components/AddLibraryForm'
 import RemoveLibraryConfirmation from '../components/RemoveLibraryConfirmation'
+import SearchBooks from '../components/SearchBooks'
 
-// import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 function MapPage() {
@@ -13,11 +13,15 @@ function MapPage() {
 
     const [refreshMap, setRefreshMap] = useState(false);
 
+    const [selectedGenres, setSelectedGenres] = useState([]);
+
     return (
         <div>
             <Navbar />
 
-            <Map refreshMap={refreshMap} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} />
+            <SearchBooks selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres}/>
+
+            <Map refreshMap={refreshMap} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} selectedGenres={selectedGenres} />
 
             {showAddLibrary && <AddLibraryForm setShowAddLibrary={setShowAddLibrary} setRefreshMap={setRefreshMap} />}
 

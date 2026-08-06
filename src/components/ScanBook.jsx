@@ -157,7 +157,12 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
               <div className="scanner-buttons">
                 <button onClick={stopScanner}>Cancel</button>
 
-                <button onClick={() => { stopScanner(); setBookToAdd({title: "", author: "", publication_year: "", genre: "", synopsis: "", isbn: "", cover_image: ""}); setShowManualAddBook(true); setBookNotFound(false);}}>Add Manually</button>
+                <button onClick={() => { 
+                  stopScanner(); 
+                  setBookToAdd({title: "", author: "", publication_year: "", genre: "", synopsis: "", isbn: "", cover_image: ""}); 
+                  setShowManualAddBook(true); 
+                  setBookNotFound(false);
+                }}>Add Manually</button>
               </div>
             </>
           )}

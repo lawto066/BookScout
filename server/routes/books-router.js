@@ -4,13 +4,28 @@ import pool from "../database.js";
 const router = express.Router();
 
 router.get("/:library_id", async (req, res) => {
+    console.log("Book route genres:", req.query.genres);
+    
     try {
         const { library_id } = req.params;
 
-        const result = await pool.query(
-            "SELECT * FROM books WHERE library_id = $1",
-            [library_id]
-        );
+        const { genres } = req.query;
+
+        let result;
+
+        if (genres) {
+            const genreList = genres.split(",");
+
+            result = await pool.query(
+                "SELECT * FROM books WHERE library_id = $1 AND genre = ANY($2)",
+                [library_id, genreList]
+            );
+        } else {
+            result = await pool.query(
+                "SELECT * FROM books WHERE library_id = $1",
+                [library_id]
+            );
+        }
         
         res.json(result.rows);
     } catch (error) {
