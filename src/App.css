@@ -19,11 +19,9 @@ h2 {
   margin: 0;
 }
 
-body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-}
-
+/* =========================
+   Navbar.jsx
+========================= */
 #navbar {
   background-color: #5cbbc7;
   color: white;
@@ -40,34 +38,39 @@ body {
 
 #navbar-back {
   position: absolute;
+
   left: 20px;
+
   top: 50%;
+
   transform: translateY(-50%);
 
   width: 40px;
+
   height: 40px;
 
   border-radius: 50%;
 
   background-color: #5cbbc7;
+
   color: white;
 
   border: 0.5px solid white;
-  /* border: none; */
+
   font-size: 20px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-button {
-  background-color: #324b4e;
-  color: white;
-}
-
+/* =========================
+   MapPage.jsx
+========================= */
 #add-library-button {
   position: fixed;
   bottom: 20px;
@@ -106,28 +109,20 @@ button {
   z-index: 1000;
 }
 
-#remove-book-button {
-  background-color: #c0392b;
-}
-
-#app {
-  height: 100vh;
-}
-
 #map {
   height: calc(100vh - 60px);
   background-color: #e6e6e6;
   margin: 60px 0 0 0;
 }
 
-h2 {
-  margin: 0;
-}
-
 #add-library-form {
   padding-top: 100px;
   text-align: center;
 }
+
+/* =========================
+   AddLibraryForm.jsx
+========================= */
 
 #add-library-form h1 {
   margin-bottom: 30px;
@@ -190,40 +185,125 @@ h2 {
   box-shadow: none;
 }
 
-#library-page {
-  padding-top: 100px;
+/* =========================
+   LibraryMarker.jsx
+========================= */
+.library-marker {
+  position: relative;
+  width: 40px;
+  height: 40px;
 }
 
-#book-list {
+.library-marker img {
+  width: 40px;
+  height: 40px;
+}
+
+.remove-marker-x {
+  position: absolute;
+  top: 20%;
+  left: 85%;
+
+  transform: translate(-50%, -50%);
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background-color: #c0392b;
+  color: white;
+
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1;
+
   display: flex;
-  gap: 25px;
-  overflow-x: auto;
-  padding: 25px;
+  align-items: center;
+  justify-content: center;
 
-  scroll-snap-type: x mandatory;
+  padding-bottom: 3px;
 }
 
-.book-card {
-  flex: 0 0 240px;
+.custom-cluster-icon {
+  background: none;
+  border: none;
+}
 
-  background-color: white;
-  padding: 18px;
-  border-radius: 15px;
+.cluster-icon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+.cluster-icon img {
+  width: 40px;
+  height: 40px;
+}
 
-  text-align: center;
+.cluster-icon span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
 
-  scroll-snap-align: center;
+  color: white;
+  background: #324b4e;
+  border-radius: 50%;
+
+  width: 18px;
+  height: 18px;
+
+  font-size: 12px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   Location Autocomplete
+========================= */
+#location-container {
   position: relative;
 }
 
-.book-card img {
-  width: 100%;
-  height: 350px;
-  object-fit: cover;
+#location-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
 
-  border-radius: 10px;
+  width: 100%;
+
+  background: white;
+
+  border-radius: 8px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+  overflow: hidden;
+
+  z-index: 1000;
+}
+
+#location-suggestions div {
+  padding: 12px;
+
+  cursor: pointer;
+
+  border-bottom: 1px solid #eee;
+}
+
+/* =========================
+   RemoveLibraryConfirmation.jsx
+========================= */
+
+
+/* =========================
+   LibraryPage.jsx
+========================= */
+#library-page {
+  padding-top: 100px;
 }
 
 #library-header {
@@ -267,7 +347,6 @@ h2 {
   padding: 14px 22px;
   border-radius: 30px;
 
-  /* background-color: #324b4e; */
   color: white;
 
   border: none;
@@ -276,115 +355,72 @@ h2 {
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
 }
 
-#book-actions > p,
-#book-actions > video {
-  position: absolute;
-}
-
-#scanner-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  /* background: black; */
-  z-index: 10000000000;
+#book-list {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  gap: 25px;
+  overflow-x: auto;
+  padding: 25px;
+
+  scroll-snap-type: x mandatory;
 }
 
-#scanner-overlay video {
+.book-card {
+  flex: 0 0 240px;
+
+  background-color: white;
+  padding: 18px;
+  border-radius: 15px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+  text-align: center;
+
+  scroll-snap-align: center;
+  position: relative;
+}
+
+.book-card img {
   width: 100%;
-  height: 100%;
+  height: 350px;
   object-fit: cover;
+
+  border-radius: 10px;
 }
 
-#back-to-map {
-  margin: 10px 20px;
+#remove-book-button {
+  background-color: #c0392b;
+}
 
-  padding: 10px 18px;
-  border-radius: 25px;
+#remove-x {
+  position: absolute;
+  top: 5px;
+  right: 5px;
 
-  background-color: #5cbbc7;
+  width: 35px;
+  height: 35px;
+
+  border-radius: 50%;
+
+  background-color: #c0392b;
   color: white;
 
   border: none;
-  font-size: 15px;
 
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-#book-page {
-  background-color: #fafafa;
-  min-height: 100vh;
-}
-
-#book-details {
-  margin-top: 70px;
-  padding: 20px;
-  text-align: left;
-}
-
-#book-details img {
-  display: block;
-
-  width: 260px;
-  height: 380px;
-
-  object-fit: cover;
-
-  border-radius: 12px;
-
-  margin: 0 auto 20px;
-
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-#book-details h1 {
-  text-align: center;
-  font-size: 28px;
-  color: #324b4e;
-}
-
-#book-info {
-  background-color: #e8f6f8;
-
-  padding: 15px;
-  border-radius: 12px;
-
-  margin: 20px 0;
-}
-
-#book-info p {
-  font-size: 16px;
-  margin: 8px 0;
-}
-
-#book-details > p {
-  font-size: 17px;
-  line-height: 1.7;
-  color: #333;
-}
-
-#modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-
-  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 24px;
+  font-weight: bold;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  z-index: 20000;
+  cursor: pointer;
+
+  z-index: 10;
 }
 
+/* =========================
+   AddBookConfirmation.jsx
+========================= */
 #add-book-confirmation {
   background-color: white;
 
@@ -430,240 +466,170 @@ h2 {
   font-size: 16px;
 }
 
-#remove-x {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+/* =========================
+   RemoveBookConfirmation.jsx
+========================= */
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
 
-  width: 35px;
-  height: 35px;
+  width: 100%;
+  height: 100%;
 
-  border-radius: 50%;
-
-  background-color: #c0392b;
-  color: white;
-
-  border: none;
-
-  font-size: 24px;
-  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.5);
 
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
-  cursor: pointer;
-
-  z-index: 10;
+  z-index: 20000;
 }
 
-#form-error {
-  color: red;
-  font-size: 14px;
-  margin: 8px 0;
-}
-
-#location-container {
-    position: relative;
-}
-
-#location-container input {
-  display: block;
-  width: 80%;
-  max-width: 400px;
-  margin: 15px auto;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-#location-suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    overflow: hidden;
-    z-index: 1000;
-}
-
-#location-suggestions div {
-    padding: 12px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-}
-
+/* =========================
+   ManualAddBook.jsx
+========================= */
 #manual-add-overlay {
   position: fixed;
   inset: 0;
+
   background: rgba(0,0,0,0.5);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   z-index: 1000;
 }
 
 #manual-add-popup {
   background: white;
+
   width: 90%;
   max-width: 400px;
+
   padding: 24px;
+
   border-radius: 12px;
+
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
-#manual-add-buttons {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-#manual-add-buttons button {
-  flex: 1;
-  padding: 14px 22px;
-  border-radius: 30px;
-  background-color: #324b4e;
-  color: white;
-  border: none;
-  font-size: 16px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-  cursor: pointer;
-}
 #manual-add-popup input,
 #manual-add-popup textarea {
   width: 100%;
+
   padding: 10px;
+
   margin-bottom: 12px;
+
   border: 1px solid #ccc;
+
   border-radius: 8px;
+
   font-size: 16px;
+
   box-sizing: border-box;
 }
 
 #manual-add-popup h2 {
   margin-bottom: 10px;
+
   text-align: center;
 }
 
 #manual-add-popup p {
   margin-bottom: 20px;
+
   text-align: center;
 }
 
 #manual-add-popup button {
   width: 100%;
+
   padding: 14px 22px;
+
   border-radius: 30px;
+
   background-color: #324b4e;
+
   color: white;
+
   border: none;
+
   font-size: 16px;
+
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+
   cursor: pointer;
 }
 
-.custom-cluster-icon {
-  background: none;
+#manual-add-buttons {
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 20px;
+}
+
+#manual-add-buttons button {
+  flex: 1;
+
+  padding: 14px 22px;
+
+  border-radius: 30px;
+
+  background-color: #324b4e;
+
+  color: white;
+
   border: none;
+
+  font-size: 16px;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+
+  cursor: pointer;
 }
 
-.cluster-icon {
-  position: relative;
-  width: 40px;
-  height: 40px;
-}
+/* =========================
+   ScanBook.jsx
+========================= */
+#scanner-overlay {
+  position: fixed;
 
-.cluster-icon img {
-  width: 40px;
-  height: 40px;
-}
+  top: 0;
 
-.cluster-icon span {
-  position: absolute;
-  top: -5px;
-  right: -5px;
+  left: 0;
 
-  color: white;
-  background: #324b4e;
-  border-radius: 50%;
+  width: 100vw;
 
-  width: 18px;
-  height: 18px;
+  height: 100vh;
 
-  font-size: 12px;
-  font-weight: bold;
+  z-index: 10000000000;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-#library-header {
-    position: relative;
-}
-
-#remove-library-x {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-
-    background-color: red;
-    color: white;
-
-    border: none;
-    font-size: 24px;
-    line-height: 30px;
-}
-
-.library-marker {
-  position: relative;
-  width: 40px;
-  height: 40px;
-}
-
-.library-marker img {
-  width: 40px;
-  height: 40px;
-}
-
-.remove-marker-x {
-  position: absolute;
-  top: 20%;
-  left: 85%;
-
-  transform: translate(-50%, -50%);
-
-  width: 22px;
-  height: 22px;
-
-  border-radius: 50%;
-
-  background-color: #c0392b;
-  color: white;
-
-  font-size: 17px;
-  font-weight: bold;
-  line-height: 1;
-
-  display: flex;
-  align-items: center;
   justify-content: center;
 
-  padding-bottom: 3px;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+#scanner-overlay video {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
 }
 
 .scan-box {
   position: absolute;
 
   width: 70vw;
+
   height: 25vh;
 
   z-index: 5;
@@ -672,35 +638,45 @@ h2 {
 .scan-box::before,
 .scan-box::after {
   content: "";
+
   position: absolute;
+
   width: 40px;
+
   height: 40px;
 }
 
 .scan-box::before {
   top: 0;
+
   left: 0;
 
   border-top: 3px solid white;
+
   border-left: 3px solid white;
 }
 
 .scan-box::after {
   bottom: 0;
+
   right: 0;
 
   border-bottom: 3px solid white;
+
   border-right: 3px solid white;
 }
 
 #scan-status {
   position: absolute;
+
   top: 2vh;
 
   color: white;
+
   font-size: 18px;
 
   background: rgba(0, 0, 0, 0);
+
   padding: 8px 16px;
 
   border-radius: 20px;
@@ -708,10 +684,95 @@ h2 {
 
 .scanner-buttons {
   position: absolute;
+
   bottom: 40px;
 
   display: flex;
+
   gap: 20px;
 
   z-index: 10;
+}
+
+/* =========================
+   BookPage.jsx
+========================= */
+#book-page {
+  background-color: #fafafa;
+
+  min-height: 100vh;
+}
+
+#book-details {
+  margin-top: 70px;
+
+  padding: 20px;
+
+  text-align: left;
+}
+
+#book-details img {
+  display: block;
+
+  width: 260px;
+
+  height: 380px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+
+  margin: 0 auto 20px;
+
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+#book-details h1 {
+  text-align: center;
+
+  font-size: 28px;
+
+  color: #324b4e;
+}
+
+#book-info {
+  background-color: #e8f6f8;
+
+  padding: 15px;
+
+  border-radius: 12px;
+
+  margin: 20px 0;
+}
+
+#book-info p {
+  font-size: 16px;
+
+  margin: 8px 0;
+}
+
+#book-details > p {
+  font-size: 17px;
+
+  line-height: 1.7;
+
+  color: #333;
+}
+
+#back-to-map {
+  margin: 10px 20px;
+
+  padding: 10px 18px;
+
+  border-radius: 25px;
+
+  background-color: #5cbbc7;
+
+  color: white;
+
+  border: none;
+
+  font-size: 15px;
+
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }

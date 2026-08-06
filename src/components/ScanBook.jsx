@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import { BarcodeDetectorPolyfill } from "@undecaf/barcode-detector-polyfill";
 
-function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook }) {
+function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookNotFound }) {
   const videoRef = useRef(null);
   const [status, setStatus] = useState("");
   const [scanning, setScanning] = useState(false);
@@ -110,6 +110,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook }) {
                         cover_image: ""
                     });
 
+                    setBookNotFound(true);
                     setShowManualAddBook(true);
                 }
 
@@ -156,7 +157,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook }) {
               <div className="scanner-buttons">
                 <button onClick={stopScanner}>Cancel</button>
 
-                <button onClick={() => { stopScanner(); setShowManualAddBook(true);}}>Add Manually</button>
+                <button onClick={() => { stopScanner(); setBookToAdd({title: "", author: "", publication_year: "", genre: "", synopsis: "", isbn: "", cover_image: ""}); setShowManualAddBook(true); setBookNotFound(false);}}>Add Manually</button>
               </div>
             </>
           )}

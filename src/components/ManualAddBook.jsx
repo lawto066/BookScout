@@ -1,4 +1,4 @@
-function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, refreshBooks }) {
+function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, refreshBooks, bookNotFound }) {
 
   async function addBook() {
     await fetch("/api/books/", {
@@ -26,12 +26,22 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
   return (
     <div id="manual-add-overlay">
       <div id="manual-add-popup">
-        <h2>Book Not Found</h2>
-
-        <p>
-          We couldn't find this book in our database.
-          Please add the details manually.
-        </p>
+        {bookNotFound ? (
+          <>
+            <h2>Book Not Found</h2>
+            <p>
+              We couldn't find this book in our database.
+              Please add the details manually.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2>Add Book Manually</h2>
+            <p>
+              Enter the book information below.
+            </p>
+          </>
+        )}
 
         <input
           placeholder="Title"

@@ -16,6 +16,7 @@ function LibraryPage() {
     const [showAddBook, setShowAddBook] = useState(false);
     const [showManualAddBook, setShowManualAddBook] = useState(false);
     const [removeMode, setRemoveMode] = useState(false);
+    const [bookNotFound, setBookNotFound] = useState(false);
 
     const [bookToAdd, setBookToAdd] = useState(null);
 
@@ -40,6 +41,8 @@ function LibraryPage() {
         setBooks(data);
     }
 
+    console.log("Manual popup state:", showManualAddBook, bookToAdd);
+
     return (
         <div id="library-page">
             <Navbar showBack />
@@ -62,12 +65,12 @@ function LibraryPage() {
 
             <div id="book-actions">
                 <button id="remove-book-button" onClick={() => setRemoveMode(!removeMode)}>{removeMode ? "Done" : "Remove Books"}</button>
-                <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook}/>
+                <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook} setBookNotFound={setBookNotFound}/>
             </div>
 
             {showAddBook && bookToAdd && (<AddBookConfirmation libraryId={library.id} book={bookToAdd} onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
 
-            {showManualAddBook && <ManualAddBook libraryId={library.id} book={bookToAdd} setBookToAdd={setBookToAdd} setShowManualAddBook={setShowManualAddBook} refreshBooks={refreshBooks} />}
+            {showManualAddBook && bookToAdd && <ManualAddBook libraryId={library.id} book={bookToAdd} setBookToAdd={setBookToAdd} setShowManualAddBook={setShowManualAddBook} refreshBooks={refreshBooks} bookNotFound={bookNotFound} />}
 
             {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)} refreshBooks={refreshBooks}/>)}
 
