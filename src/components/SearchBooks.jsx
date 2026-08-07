@@ -27,7 +27,7 @@ function SearchBooks({ query, setQuery, setSelectedQuery, selectedGenres, setSel
 
     return (
         <div id="search-books">
-            <input placeholder="Search books or authors..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input placeholder="Search books or authors..." value={query} onChange={(e) => {setQuery(e.target.value); if (e.target.value.length < 2) {setSearchResults([])}}} />
 
             {searchResults.length > 0 && (
                 <div id="search-results-dropdown">
