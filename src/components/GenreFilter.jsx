@@ -5,13 +5,13 @@ function GenreFilter({ setShowFilters, selectedGenres, setSelectedGenres }) {
 
   const genres = [
     "Fantasy",
-    "Science Fiction",
+    "Fiction",
     "Mystery",
     "Thriller",
     "Romance",
     "Horror",
     "Adventure",
-    "Historical Fiction",
+    "History",
     "Biography",
     "Nonfiction",
     "Young Adult",
