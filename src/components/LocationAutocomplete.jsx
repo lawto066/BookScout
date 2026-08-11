@@ -21,7 +21,7 @@ function LocationAutocomplete({ location_name, setLocation, setLatitude, setLong
 
     return (
         <div id="location-input-wrapper">
-            <input type="text" placeholder="Address" value={location_name} onChange={(e) => { setSkipSearch(false); setLocation(e.target.value); setSuggestions([]); setHasSearched(false);}} />
+            <input type="text" placeholder="Address" value={location_name} onChange={(e) => { setSkipSearch(false); setLatitude(null); setLongitude(null); setLocation(e.target.value); setSuggestions([]); setHasSearched(false);}} />
             {location_name && <button type="button" id="clear-location" onClick={() => { setLocation(""); setSuggestions([]); setSkipSearch(false); }}>×</button>}
 
             {location_name.length >= 3 && !skipSearch && (

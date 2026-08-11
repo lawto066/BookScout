@@ -32,8 +32,8 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
       return;
     }
 
-    if (!location_name.trim() && (latitude === null || longitude === null)) {
-      setError("Location is required.");
+    if (!location_name.trim() || latitude === null || longitude === null) {
+      setError("Location is required. Please select a location from the suggestions.");
       return;
     }
 

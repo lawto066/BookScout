@@ -2,11 +2,38 @@ import { useRef, useState } from "react";
 
 import { BarcodeDetectorPolyfill } from "@undecaf/barcode-detector-polyfill";
 
-function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookNotFound }) {
+function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookNotFound, setNoCamera }) {
   const videoRef = useRef(null);
   const [status, setStatus] = useState("");
   const [scanning, setScanning] = useState(false);
   const [cameraReady, setCameraReady] = useState(false);
+
+  function openManualAdd(reason) {
+    stopScanner();
+
+    setBookToAdd({
+        title: "",
+        author: "",
+        publication_year: "",
+        genre: "",
+        synopsis: "",
+        isbn: "",
+        cover_image: ""
+    });
+
+    if (reason === "noCamera") {
+        setBookNotFound(false);
+        setNoCamera(true);
+    } else if (reason === "bookNotFound") {
+        setBookNotFound(true);
+        setNoCamera(false);
+    } else {
+        setBookNotFound(false);
+        setNoCamera(false);
+    }
+
+    setShowManualAddBook(true);
+}
 
   function stopScanner() {
     if (videoRef.current?.srcObject) {
@@ -100,18 +127,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
                     // User confirms information and is sent to BookScout database via AddBookConfirmatio.jsx
                     setShowAddBook(true);
                 } else {
-                    setBookToAdd({
-                        title: "",
-                        author: "",
-                        publication_year: "",
-                        genre: "",
-                        synopsis: "",
-                        isbn: isbn,
-                        cover_image: ""
-                    });
-
-                    setBookNotFound(true);
-                    setShowManualAddBook(true);
+                    openManualAdd("bookNotFound");
                 }
 
                 setStatus("Book found!");
@@ -133,10 +149,8 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
       // Step 0: Start camera frame loop
       requestAnimationFrame(scan);
 
-    } catch (error) {
-      console.error(error);
-      setStatus("Could not access camera");
-      setScanning(false);
+    } catch {
+      openManualAdd("noCamera");
     }
   }
 
@@ -157,12 +171,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
               <div className="scanner-buttons">
                 <button onClick={stopScanner}>Cancel</button>
 
-                <button onClick={() => { 
-                  stopScanner(); 
-                  setBookToAdd({title: "", author: "", publication_year: "", genre: "", synopsis: "", isbn: "", cover_image: ""}); 
-                  setShowManualAddBook(true); 
-                  setBookNotFound(false);
-                }}>Add Manually</button>
+                <button onClick={() => {openManualAdd("manual")}}>Add Manually</button>
               </div>
             </>
           )}

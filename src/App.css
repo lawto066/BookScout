@@ -169,7 +169,7 @@ SearchBooks.jsx
 #search-books {
     position: fixed;
 
-    top: 4rem;
+    top: 3.5rem;
     left: 50%;
     transform: translateX(-50%);
 
@@ -977,9 +977,13 @@ Remove Library Confirmation
 #library-header h1 {
     margin: 0;
 
+    width: 100%;
+
     color: var(--green);
-    font-size: 1.3rem;
+    font-size: clamp(0.7rem, 5vw, 1.3rem);
     font-weight: 700;
+
+    white-space: nowrap;
 }
 
 #library-header p {
@@ -1027,6 +1031,7 @@ Remove Library Confirmation
     text-align: center;
 
     scroll-snap-align: center;
+    cursor: pointer;
 }
 
 .book-card img {

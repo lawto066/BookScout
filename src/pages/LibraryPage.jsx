@@ -17,6 +17,7 @@ function LibraryPage() {
     const [showManualAddBook, setShowManualAddBook] = useState(false);
     const [removeMode, setRemoveMode] = useState(false);
     const [bookNotFound, setBookNotFound] = useState(false);
+    const [noCamera, setNoCamera] = useState(false);
 
     const [bookToAdd, setBookToAdd] = useState(null);
 
@@ -57,7 +58,7 @@ function LibraryPage() {
             <Navbar showBack />
 
             <div id="library-header">
-                <h1>{library.name}</h1>
+                <h1>{library.name.split("#")[0].trim()}</h1>
                 <p>{library.location_name.split(",").slice(0, 3).join(",")}</p>
             </div>
 
@@ -74,12 +75,12 @@ function LibraryPage() {
 
             <div id="book-actions">
                 <button id="remove-book-button" onClick={() => setRemoveMode(!removeMode)}>{removeMode ? "Done" : "Remove Books"}</button>
-                <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook} setBookNotFound={setBookNotFound}/>
+                <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook} setBookNotFound={setBookNotFound} setNoCamera={setNoCamera}/>
             </div>
 
             {showAddBook && bookToAdd && (<AddBookConfirmation libraryId={library.id} book={bookToAdd} onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
 
-            {showManualAddBook && bookToAdd && <ManualAddBook libraryId={library.id} book={bookToAdd} setBookToAdd={setBookToAdd} setShowManualAddBook={setShowManualAddBook} refreshBooks={refreshBooks} bookNotFound={bookNotFound} />}
+            {showManualAddBook && bookToAdd && <ManualAddBook libraryId={library.id} book={bookToAdd} setBookToAdd={setBookToAdd} setShowManualAddBook={setShowManualAddBook} refreshBooks={refreshBooks} bookNotFound={bookNotFound} noCamera={noCamera} />}
 
             {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)} refreshBooks={refreshBooks}/>)}
 

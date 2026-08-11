@@ -1,6 +1,31 @@
-function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, refreshBooks, bookNotFound }) {
+import { useState } from "react";
+
+function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, refreshBooks, bookNotFound, noCamera }) {
+  const [error, setError] = useState("");
 
   async function addBook() {
+    if (!book.title.trim()) {
+        setError("Book title is required.");
+        return;
+    }
+
+    if (!book.author.trim()) {
+        setError("Author is required.");
+        return;
+    }
+
+    if (!book.publication_year) {
+        setError("Publication year is required.");
+        return;
+    }
+
+    if (!book.genre.trim()) {
+        setError("Genre is required.");
+        return;
+    }
+
+    setError("");
+
     await fetch("/api/books/", {
       method: "POST",
       headers: {
@@ -27,20 +52,26 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
     <div id="manual-add-overlay">
       <div id="manual-add-popup">
         {bookNotFound ? (
-          <>
-            <h2>Book Not Found</h2>
-            <p>
-              We couldn't find this book in our database.
-              Please add the details manually.
-            </p>
-          </>
+            <>
+                <h2>Book Not Found</h2>
+                <p>
+                    We couldn't find this book in our database.
+                    Please add the details manually.
+                </p>
+            </>
+        ) : noCamera ? (
+            <>
+                <h2>No Camera Found</h2>
+                <p>
+                    We couldn't access your camera.
+                    Please add the book details manually.
+                </p>
+            </>
         ) : (
-          <>
-            <h2>Add Book Manually</h2>
-            <p>
-              Enter the book information below.
-            </p>
-          </>
+            <>
+                <h2>Add Book Manually</h2>
+                <p>Enter the book information below.</p>
+            </>
         )}
 
         <input
@@ -83,6 +114,8 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
             setBookToAdd({ ...book, synopsis: e.target.value })
           }
         />
+
+        {error && <p id="form-error">{error}</p>}
 
 
         <div id="manual-add-buttons">
