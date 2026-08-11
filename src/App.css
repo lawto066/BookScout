@@ -68,7 +68,7 @@ body,
   left: 0;
 
   width: 100%;
-  height: 4dvh;
+  height: 3.5rem;
 
   display: flex;
   align-items: center;
@@ -171,8 +171,6 @@ SearchBooks.jsx
 
     top: 4rem;
     left: 50%;
-    height: 4dvh;
-
     transform: translateX(-50%);
 
     width: min(90%, 26rem);
@@ -200,7 +198,7 @@ SearchBooks.jsx
     flex: 1;
     min-width: 0;
 
-    padding: 0.625rem 0.75rem;
+    padding: 0.5rem 0.75rem;
 
     border: none;
     outline: none;
