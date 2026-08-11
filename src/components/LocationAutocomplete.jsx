@@ -11,7 +11,7 @@ function LocationAutocomplete({ location_name, setLocation, setLatitude, setLong
         const timer = setTimeout(() => {
             fetch(`/api/location?q=${encodeURIComponent(location_name)}`)
                 .then((response) => response.json())
-                .then((data) => { setSuggestions(data.slice(0, 3)); setHasSearched(true); })
+                .then((data) => { setSuggestions(data.slice(0, 10)); setHasSearched(true); })
                 .catch((error) => console.error(error));
         }, 1000);
 
