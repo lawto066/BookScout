@@ -60,34 +60,36 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
   
 
   return (
-    <div id="add-library-form">
+    <div id="modal-overlay">g
+      <div id="add-library-form">
 
-      <button id="close-add-library" onClick={() => setShowAddLibrary(false)}>✕</button>
+        <button id="close-add-library" onClick={() => setShowAddLibrary(false)}>✕</button>
 
-      <h1>Add Library</h1>
+        <h1>Add Library</h1>
 
-      <div id="library-name-input">
-        <input type="text" placeholder="Library Name" value={name} onChange={(e) => setName(e.target.value)} />
-        {name && <button type="button" id="clear-library-name" onClick={() => setName("")}>×</button>}
+        <div id="library-name-input">
+          <input type="text" placeholder="Library Name" value={name} onChange={(e) => setName(e.target.value)} />
+          {name && <button type="button" id="clear-library-name" onClick={() => setName("")}>×</button>}
+        </div>
+
+        <div id="location-input-wrapper">
+          <LocationAutocomplete location_name={location_name} setLocation={setLocation} setLatitude={setLatitude} setLongitude={setLongitude} />
+
+          <button id="current-location-button" onClick={getLocation}>
+            <img src="/location.svg" alt="" />
+          </button>
+
+        </div>
+
+        <div id="charter-number-input">
+          <input type="text" placeholder="Charter Number (optional)" value={charterNumber} onChange={(e) => setCharterNumber(e.target.value)} />
+          {charterNumber && <button type="button" id="clear-charter-number" onClick={() => setCharterNumber("")}>×</button>}
+        </div>
+
+        {error && <p id="form-error">{error}</p>}
+
+        <button id="save-library-button" onClick={addLibrary}>Save Library</button>
       </div>
-
-      <div id="location-input-wrapper">
-        <LocationAutocomplete location_name={location_name} setLocation={setLocation} setLatitude={setLatitude} setLongitude={setLongitude} />
-
-        <button id="current-location-button" onClick={getLocation}>
-          <img src="/location.svg" alt="" />
-        </button>
-
-      </div>
-
-      <div id="charter-number-input">
-        <input type="text" placeholder="Charter Number (optional)" value={charterNumber} onChange={(e) => setCharterNumber(e.target.value)} />
-        {charterNumber && <button type="button" id="clear-charter-number" onClick={() => setCharterNumber("")}>×</button>}
-      </div>
-
-      {error && <p id="form-error">{error}</p>}
-
-      <button id="save-library-button" onClick={addLibrary}>Save Library</button>
     </div>
   )
 }
