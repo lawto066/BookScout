@@ -27,7 +27,7 @@ function MapPage() {
 
             {showAddLibrary && <AddLibraryForm setShowAddLibrary={setShowAddLibrary} setRefreshMap={setRefreshMap} />}
 
-            {libraryToRemove && (<RemoveLibraryConfirmation library={libraryToRemove} onClose={() => setLibraryToRemove(null)} refreshMap={setRefreshMap}/>)}
+            {libraryToRemove && (<RemoveLibraryConfirmation library={libraryToRemove} onClose={() => setLibraryToRemove(null)} refreshMap={setRefreshMap} setRemoveMode={setRemoveMode}/>)}
 
             <button id="add-library-button" onClick={() => setShowAddLibrary(true)}>
                 Add Library

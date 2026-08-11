@@ -66,16 +66,28 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
 
       <h1>Add Library</h1>
 
-      <input type="text" placeholder="Library Name" value={name} onChange={(e) => setName(e.target.value)}/>
+      <div id="library-name-input">
+        <input type="text" placeholder="Library Name" value={name} onChange={(e) => setName(e.target.value)} />
+        {name && <button type="button" id="clear-library-name" onClick={() => setName("")}>×</button>}
+      </div>
 
-      <LocationAutocomplete location_name={location_name} setLocation={setLocation} setLatitude={setLatitude} setLongitude={setLongitude} />
-      <button onClick={getLocation}>Use Current Location</button>
+      <div id="location-input-wrapper">
+        <LocationAutocomplete location_name={location_name} setLocation={setLocation} setLatitude={setLatitude} setLongitude={setLongitude} />
 
-      <input type="text" placeholder="Charter Number (optional)" value={charterNumber} onChange={(e) => setCharterNumber(e.target.value)}/>
+        <button id="current-location-button" onClick={getLocation}>
+          <img src="/location.svg" alt="" />
+        </button>
+
+      </div>
+
+      <div id="charter-number-input">
+        <input type="text" placeholder="Charter Number (optional)" value={charterNumber} onChange={(e) => setCharterNumber(e.target.value)} />
+        {charterNumber && <button type="button" id="clear-charter-number" onClick={() => setCharterNumber("")}>×</button>}
+      </div>
 
       {error && <p id="form-error">{error}</p>}
 
-      <button onClick={addLibrary}>Save Library</button>
+      <button id="save-library-button" onClick={addLibrary}>Save Library</button>
     </div>
   )
 }

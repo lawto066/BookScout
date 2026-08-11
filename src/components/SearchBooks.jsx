@@ -27,8 +27,11 @@ function SearchBooks({ query, setQuery, setSelectedQuery, selectedGenres, setSel
 
     return (
         <div id="search-books">
-            <input placeholder="Search books or authors..." value={query} onChange={(e) => {setQuery(e.target.value); if (e.target.value.length < 2) {setSearchResults([])}}} />
-
+            <div id="book-search-input">
+                <input placeholder="Search books or authors..." value={query} onChange={(e) => {setQuery(e.target.value); if (e.target.value.length < 2) {setSearchResults([])}}} />
+                {query && <button type="button" id="clear-book-search" onClick={() => {setQuery(""); setSearchResults([]);}}>×</button>}
+            </div>
+            
             {searchResults.length > 0 && (
                 <div id="search-results-dropdown">
                     {searchResults.map((book) => (

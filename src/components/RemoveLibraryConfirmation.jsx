@@ -1,4 +1,4 @@
-function RemoveLibraryConfirmation({ library, onClose, refreshMap }) {
+function RemoveLibraryConfirmation({ library, onClose, refreshMap, setRemoveMode }) {
 
   async function removeLibrary() {
     await fetch(`/api/libraries/${library.id}`, {
@@ -6,12 +6,13 @@ function RemoveLibraryConfirmation({ library, onClose, refreshMap }) {
     });
 
     refreshMap(prev => !prev);
+    setRemoveMode(false);
     onClose();
   }
 
   return (
     <div id="modal-overlay">
-      <div id="add-book-confirmation">
+      <div id="remove-library-confirmation">
 
         <h2>{library.name}</h2>
 
@@ -19,7 +20,7 @@ function RemoveLibraryConfirmation({ library, onClose, refreshMap }) {
 
         <button onClick={onClose}> Cancel </button>
 
-        <button onClick={removeLibrary}> Remove </button>
+        <button onClick={removeLibrary}> Remove Library </button>
 
       </div>
     </div>
