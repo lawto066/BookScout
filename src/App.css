@@ -174,6 +174,7 @@ SearchBooks.jsx
     transform: translateX(-50%);
 
     width: min(90%, 26rem);
+    height: 3rem;
 
     display: flex;
     align-items: center;
