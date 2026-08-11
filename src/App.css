@@ -567,7 +567,7 @@ GenreFilter.jsx
 
     /* Keeps the popup from getting too tall */
     max-height: 65dvh;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 #genre-filter-popup h2 {
@@ -595,6 +595,9 @@ Genre Checkboxes
     row-gap: 0.75rem;
 
     margin-bottom: 1.25rem;
+
+    max-height: 40dvh;
+    overflow-y: auto;
 }
 
 #genre-list label {
@@ -851,7 +854,6 @@ Location Suggestions
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-md);
 
-    /* overflow: hidden; */
     z-index: 12000;
 }
 
