@@ -68,7 +68,7 @@ body,
   left: 0;
 
   width: 100%;
-  height: 3.5rem;
+  height: 3rem;
 
   display: flex;
   align-items: center;
@@ -79,7 +79,7 @@ body,
 
   z-index: 10000;
 
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 
 #navbar h2 {
