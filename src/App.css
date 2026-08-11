@@ -853,13 +853,22 @@ Location Suggestions
 }
 
 #location-suggestions > div {
-    padding: 0.8rem 0.9rem;
+    padding: 0.8rem 1rem;
+
+    min-height: 3.8rem;
 
     border-bottom: 1px solid var(--border);
     background: var(--surface);
 
     font-size: 0.9rem;
-    line-height: 1.4;
+    line-height: 1.5;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    max-height: calc(0.9rem * 1.4 * 2);
+    overflow: hidden;
 }
 
 #location-suggestions > div:last-child {

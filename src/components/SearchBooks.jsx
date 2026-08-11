@@ -3,9 +3,11 @@ import { SlidersHorizontal } from "lucide-react";
 
 import GenreFilter from "./GenreFilter";
 
-function SearchBooks({ query, setQuery, setSelectedQuery, selectedGenres, setSelectedGenres }) {
+function SearchBooks({ setSelectedQuery, selectedGenres, setSelectedGenres }) {
     const [showFilters, setShowFilters] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+    const [query, setQuery] = useState("");
+
     const justSelected = useRef(false);
 
     useEffect(() => {

@@ -14,14 +14,13 @@ function MapPage() {
     const [refreshMap, setRefreshMap] = useState(false);
 
     const [selectedGenres, setSelectedGenres] = useState([]);
-    const [query, setQuery] = useState("");
     const [selectedQuery, setSelectedQuery] = useState("");
 
     return (
         <div>
             <Navbar />
 
-            <SearchBooks query={query} setQuery={setQuery} setSelectedQuery={setSelectedQuery} selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres}/>
+            <SearchBooks setSelectedQuery={setSelectedQuery} selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres}/>
 
             <Map refreshMap={refreshMap} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} selectedGenres={selectedGenres} selectedQuery={selectedQuery} />
 
