@@ -1022,11 +1022,9 @@ Remove Library Confirmation
 
 .book-card img {
     width: 100%;
-    height: auto;
+    height: 15rem;
 
-    aspect-ratio: 2 / 3;
-
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
