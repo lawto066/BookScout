@@ -4,7 +4,7 @@ import cors from "cors";
 import libraryRoutes from "./routes/libraries-router.js";
 import bookRoutes from "./routes/books-router.js";
 import locationRoutes from "./routes/location-router.js"
-import searchRoutes from "./routes/search-router.js"
+import searchRoutes from "./routes/"
 
 const app = express();
 

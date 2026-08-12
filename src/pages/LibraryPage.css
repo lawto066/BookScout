@@ -469,3 +469,32 @@
 #manual-add-buttons button:last-child {
     background: var(--green);
 }
+
+/* =========================
+   Empty Library
+========================= */
+
+#empty-library {
+    width: 100%;
+
+    padding: 3rem 1.5rem;
+
+    text-align: center;
+}
+
+#empty-library h2 {
+    margin-bottom: 0.75rem;
+
+    color: var(--green);
+
+    font-size: 1.2rem;
+}
+
+#empty-library p {
+    max-width: 25rem;
+    margin: 0 auto;
+
+    color: var(--text-muted);
+
+    line-height: 1.5;
+}

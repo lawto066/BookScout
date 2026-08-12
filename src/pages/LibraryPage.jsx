@@ -97,15 +97,50 @@ function LibraryPage() {
             </div>
 
             <div id="book-list">
-                {books.map((book) => ( 
-                    
-                    <div className="book-card" key={book.id} onClick={() => navigate('/book', { state: book })}>
-                        {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book); setRemoveMode(false)} } id="remove-x">×</button>}
-                        <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
-                        <p>{book.title}</p>
-                        <span>{book.author} · {book.genre}</span>
+                {books.length === 0 ? (
+                    <div id="empty-library">
+                        <h2>No books yet</h2>
+                        <p>
+                            Looks like this library doesn't have any books listed yet.
+                            You can add a book to help get this library started.
+                        </p>
                     </div>
-                ))}
+                ) : (
+                    books.map((book) => (
+                        <div
+                            className="book-card"
+                            key={book.id}
+                            onClick={() => navigate('/book', { state: book })}
+                        >
+                            {removeMode && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setBookToRemove(book);
+                                        setRemoveMode(false);
+                                    }}
+                                    id="remove-x"
+                                >
+                                    ×
+                                </button>
+                            )}
+
+                            <img
+                                src={
+                                    book.cover_image
+                                        ? (book.cover_image.startsWith("http")
+                                            ? book.cover_image
+                                            : `/books/${book.cover_image}`)
+                                        : "/books/book_not_found.jpg"
+                                }
+                                alt={book.title}
+                            />
+
+                            <p>{book.title}</p>
+                            <span>{book.author} · {book.genre}</span>
+                        </div>
+                    ))
+                )}
             </div>
 
             <div id="book-actions">
