@@ -3,6 +3,20 @@ import pool from "../database.js";
 
 const router = express.Router();
 
+router.get("/genres", async (req, res) => {
+    try {
+        const result = await pool.query(
+            "SELECT DISTINCT genre FROM books WHERE genre IS NOT NULL AND genre != '' ORDER BY genre"
+        );
+
+        res.json(result.rows.map(row => row.genre));
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
 router.get("/:library_id", async (req, res) => {
 
     try {

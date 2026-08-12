@@ -615,6 +615,8 @@ Genre Checkboxes
     font-size: 0.95rem;
 
     cursor: pointer;
+
+    white-space: nowrap;
 }
 
 #genre-list input {

@@ -1,26 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function GenreFilter({ setShowFilters, selectedGenres, setSelectedGenres }) {
   const [tempGenres, setTempGenres] = useState(selectedGenres);
+  const [genres, setGenres] = useState([]);
 
-  const genres = [
-    "Fantasy",
-    "Fiction",
-    "Mystery",
-    "Thriller",
-    "Romance",
-    "Horror",
-    "Adventure",
-    "History",
-    "Biography",
-    "Nonfiction",
-    "Young Adult",
-    "Children's",
-    "Comedy",
-    "Drama",
-    "Poetry",
-    "Other"
-  ];
+  useEffect(() => {
+    fetch("/api/books/genres")
+        .then(response => response.json())
+        .then(data => setGenres(data))
+        .catch(error => console.error(error));
+  }, []);
 
   function toggleGenre(genre) {
     if (tempGenres.includes(genre)) {

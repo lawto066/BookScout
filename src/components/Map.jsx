@@ -43,11 +43,24 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selec
           marker => marker.options.library?.has_books
       );
 
+      const count = cluster.getChildCount();
+      let displayCount;
+
+      if (count < 10) {
+          displayCount = count;
+      } else if (count < 50) {
+          displayCount = "10+";
+      } else if (count < 100) {
+          displayCount = "50+";
+      } else {
+          displayCount = "100+";
+      }
+
       return new L.DivIcon({
           html: `
               <div class="cluster-icon" style="opacity: ${hasBooks ? 1 : 0.35};">
                   <img src="/library.png">
-                  <span>${cluster.getChildCount()}</span>
+                  <span>${displayCount}</span>
               </div>
           `,
           iconSize: [40, 40],
@@ -65,7 +78,7 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selec
 
         <TileLayer attribution='&copy; OpenStreetMap contributors &copy; CARTO' url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"/>
 
-        <MarkerClusterGroup maxClusterRadius={180} iconCreateFunction={clusterIcon}>
+        <MarkerClusterGroup maxClusterRadius={80} iconCreateFunction={clusterIcon}>
           {libraries.map((library) => (
             <LibraryMarker key={library.id} library={library} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} selectedGenres={selectedGenres} selectedQuery={selectedQuery} />
           ))}
