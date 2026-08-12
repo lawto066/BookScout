@@ -33,7 +33,7 @@ function MapPage() {
             </button>
 
             <button id="remove-library-button" onClick={() => setRemoveMode(!removeMode)}>
-                {removeMode ? "Done" : "Remove Libraries"}
+                {removeMode ? "Cancel" : "Remove Library"}
             </button>
         </div>
     )

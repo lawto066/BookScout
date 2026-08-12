@@ -65,7 +65,7 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selec
 
         <TileLayer attribution='&copy; OpenStreetMap contributors &copy; CARTO' url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"/>
 
-        <MarkerClusterGroup maxClusterRadius={40} iconCreateFunction={clusterIcon}>
+        <MarkerClusterGroup maxClusterRadius={180} iconCreateFunction={clusterIcon}>
           {libraries.map((library) => (
             <LibraryMarker key={library.id} library={library} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} selectedGenres={selectedGenres} selectedQuery={selectedQuery} />
           ))}

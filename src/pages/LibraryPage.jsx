@@ -98,7 +98,7 @@ function LibraryPage() {
                 {books.map((book) => ( 
                     
                     <div className="book-card" key={book.id} onClick={() => navigate('/book', { state: book })}>
-                        {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book)}} id="remove-x">×</button>}
+                        {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book); setRemoveMode(false)} } id="remove-x">×</button>}
                         <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
                         <p>{book.title}</p>
                         <span>{book.author} · {book.genre}</span>
@@ -107,7 +107,7 @@ function LibraryPage() {
             </div>
 
             <div id="book-actions">
-                <button id="remove-book-button" onClick={() => setRemoveMode(!removeMode)}>{removeMode ? "Done" : "Remove Books"}</button>
+                <button id="remove-book-button" onClick={() => setRemoveMode(!removeMode)}>{removeMode ? "Cancel" : "Remove Book"}</button>
                 <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook} setBookNotFound={setBookNotFound} setNoCamera={setNoCamera}/>
             </div>
 
