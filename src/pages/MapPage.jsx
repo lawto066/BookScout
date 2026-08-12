@@ -19,7 +19,7 @@ function MapPage() {
     const [selectedQuery, setSelectedQuery] = useState("");
 
     return (
-        <div>
+        <div className="map-page">
             <Navbar />
 
             <SearchBooks setSelectedQuery={setSelectedQuery} selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres}/>
