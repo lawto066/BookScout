@@ -104,18 +104,15 @@ body,
 
   padding: 0;
 
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: none;
+
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--teal);
   color: white;
 
   font-size: 1.375rem;
   line-height: 1;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
 }
 
 #navbar-back:hover {
@@ -123,5 +120,43 @@ body,
 }
 
 #navbar-back:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+#navbar-help {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 2.25rem;
+  height: 2.25rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: var(--teal);
+  color: white;
+
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+#navbar-help:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+#navbar-help:active {
   transform: translateY(-50%) scale(0.94);
 }

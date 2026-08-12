@@ -8,7 +8,7 @@ function BookPage() {
 
     return (
     <div id="book-page">
-        <Navbar showBack />
+        <Navbar showBack backTo={`/library/${book.library_id}`}/>
 
         <div id="book-details">
         <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />

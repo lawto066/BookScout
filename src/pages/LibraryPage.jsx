@@ -74,7 +74,7 @@ function LibraryPage() {
     if (libraryNotFound) {
         return (
             <div id="library-page">
-                <Navbar showBack />
+                <Navbar showBack backTo="/"/>
 
                 <div id="library-not-found">
                     <p>Library not found.</p>
@@ -89,7 +89,7 @@ function LibraryPage() {
 
     return (
         <div id="library-page">
-            <Navbar showBack />
+            <Navbar showBack backTo="/"/>
 
             <div id="library-header">
                 <h1>{library.name.split("#")[0].trim()}</h1>
