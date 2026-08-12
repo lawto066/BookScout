@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 import AddBookConfirmation from '../components/AddBookConfirmation'
@@ -11,6 +11,7 @@ import ScanBook from '../components/ScanBook'
 
 function LibraryPage() {
     const [books, setBooks] = useState([]);
+    const [library, setLibrary] = useState(null);
     const navigate = useNavigate();
 
     const [showAddBook, setShowAddBook] = useState(false);
@@ -18,19 +19,32 @@ function LibraryPage() {
     const [removeMode, setRemoveMode] = useState(false);
     const [bookNotFound, setBookNotFound] = useState(false);
     const [noCamera, setNoCamera] = useState(false);
+    const [libraryNotFound, setLibraryNotFound] = useState(false);
 
     const [bookToAdd, setBookToAdd] = useState(null);
 
 
     const [bookToRemove, setBookToRemove] = useState(null);
 
-    // FIX
     const location = useLocation();
-    const { library, selectedGenres, selectedQuery } = location.state;
-    // END FIX
+    const { id } = useParams();
+    const { selectedGenres = [], selectedQuery = "" } = location.state || {};
 
     useEffect(() => {
-        let url = `/api/books/${library.id}`;
+        fetch(`/api/libraries/${id}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Library not found");
+                }
+
+                return response.json();
+            })
+            .then(data => setLibrary(data))
+            .catch(() => setLibraryNotFound(true));
+    }, [id]);
+
+    useEffect(() => {
+        let url = `/api/books/${id}`;
 
         if (selectedGenres.length > 0) {
             url += `?genres=${selectedGenres.join(",")}`;
@@ -45,12 +59,30 @@ function LibraryPage() {
             .then(data => setBooks(data))
             .catch(error => console.error(error));
 
-    }, []);
+    }, [id, selectedGenres, selectedQuery]);
+
+
 
     async function refreshBooks() {
         const response = await fetch(`/api/books/${library.id}`);
         const data = await response.json();
         setBooks(data);
+    }
+
+    if (libraryNotFound) {
+        return (
+            <div id="library-page">
+                <Navbar showBack />
+
+                <div id="library-not-found">
+                    <p>Library not found.</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!library) {
+        return <p>Loading...</p>;
     }
 
     return (
@@ -69,6 +101,7 @@ function LibraryPage() {
                         {removeMode && <button onClick={(e) => {e.stopPropagation(); setBookToRemove(book)}} id="remove-x">×</button>}
                         <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
                         <p>{book.title}</p>
+                        <span>{book.author} · {book.genre}</span>
                     </div>
                 ))}
             </div>

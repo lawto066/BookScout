@@ -38,16 +38,22 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selec
       () => {setMapCenter([44.9778, -93.2650]);} );
   }, []);
 
-  const clusterIcon = (cluster) => new L.DivIcon({
-    html: `
-      <div class="cluster-icon">
-        <img src="/library.png">
-        <span>${cluster.getChildCount()}</span>
-      </div>
-    `,
-    iconSize: [40, 40],
-    className: "custom-cluster-icon",
-  });
+  const clusterIcon = (cluster) => {
+      const hasBooks = cluster.getAllChildMarkers().some(
+          marker => marker.options.library?.has_books
+      );
+
+      return new L.DivIcon({
+          html: `
+              <div class="cluster-icon" style="opacity: ${hasBooks ? 1 : 0.35};">
+                  <img src="/library.png">
+                  <span>${cluster.getChildCount()}</span>
+              </div>
+          `,
+          iconSize: [40, 40],
+          className: "custom-cluster-icon",
+      });
+  };
 
   if (!mapCenter) {
     return null;

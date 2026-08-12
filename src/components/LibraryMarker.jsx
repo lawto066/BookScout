@@ -8,6 +8,13 @@ const libraryIcon = new L.Icon({
   iconAnchor: [20, 40],
 });
 
+const emptyLibraryIcon = new L.DivIcon({
+    html: `<img src="/library.png" style="width:40px;height:40px;opacity:0.35;">`,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    className: "custom-library-icon",
+});
+
 const removeLibraryIcon = new L.DivIcon({
   html: `
     <div class="library-marker">
@@ -26,12 +33,13 @@ function LibraryMarker({ library, removeMode, setLibraryToRemove, selectedGenres
   return (
     <Marker 
       position={[library.latitude, library.longitude]} 
-      icon={removeMode ? removeLibraryIcon : libraryIcon} 
+      icon={removeMode ? removeLibraryIcon : library.has_books ? libraryIcon : emptyLibraryIcon} 
+      library={library}
       eventHandlers={{click: () => { 
         if (removeMode) { 
           setLibraryToRemove(library) 
         } else { 
-          navigate('/library', { state: { library, selectedGenres, selectedQuery }  })
+          navigate(`/library/${library.id}`, { state: { selectedGenres, selectedQuery } })
         }
       }}}
     >

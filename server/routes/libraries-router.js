@@ -12,7 +12,13 @@ router.get("/", async (req, res) => {
         if (genres || query) {
             result = await pool.query(
                 `
-                SELECT DISTINCT libraries.*
+                SELECT DISTINCT
+                    libraries.*,
+                    EXISTS (
+                        SELECT 1
+                        FROM books
+                        WHERE books.library_id = libraries.id
+                    ) AS has_books
                 FROM libraries
                 JOIN books ON books.library_id = libraries.id
                 WHERE 
@@ -25,11 +31,41 @@ router.get("/", async (req, res) => {
 
         } else {
             result = await pool.query(
-                "SELECT * FROM libraries"
+                `
+                SELECT
+                    libraries.*,
+                    EXISTS (
+                        SELECT 1
+                        FROM books
+                        WHERE books.library_id = libraries.id
+                    ) AS has_books
+                FROM libraries
+                `
             );
         }
 
         res.json(result.rows);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
+router.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await pool.query(
+            "SELECT * FROM libraries WHERE id = $1",
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Library not found" });
+        }
+
+        res.json(result.rows[0]);
 
     } catch (error) {
         console.error(error);
