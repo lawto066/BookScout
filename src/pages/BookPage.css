@@ -1,0 +1,90 @@
+
+
+/* =========================
+   Book Details
+========================= */
+
+#book-details {
+    min-height: 100dvh;
+
+    padding: 5rem 1.5rem 2rem;
+
+    background: var(--background);
+
+    text-align: center;
+}
+
+#book-details img {
+    width: 55dvw;
+    height: 35dvh;
+
+    object-fit: contain;
+
+    margin-bottom: 1rem;
+
+    filter: drop-shadow(var(--shadow-md));
+}
+
+/* =========================
+   Book Title
+========================= */
+
+#book-details h1 {
+    margin: 0 0 1rem;
+
+    color: var(--green);
+
+    font-size: clamp(1rem, 5vw, 1.5rem);
+    font-weight: 700;
+
+    line-height: 1.25;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   Book Info
+========================= */
+
+#book-info {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+
+    background: var(--surface);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    text-align: left;
+}
+
+#book-info p {
+    margin: 0.4rem 0;
+
+    color: var(--text);
+
+    font-size: 0.90rem;
+    line-height: 1.4;
+}
+
+#book-info strong {
+    color: var(--green);
+}
+
+
+/* =========================
+   Book Synopsis
+========================= */
+
+#book-details > p {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 0.95rem;
+    line-height: 1.6;
+
+    text-align: left;
+}

@@ -4,6 +4,8 @@ import AddLibraryForm from '../components/AddLibraryForm'
 import RemoveLibraryConfirmation from '../components/RemoveLibraryConfirmation'
 import SearchBooks from '../components/SearchBooks'
 
+import "./MapPage.css";
+
 import { useState } from 'react'
 
 function MapPage() {

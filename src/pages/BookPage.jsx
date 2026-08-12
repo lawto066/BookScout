@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import "./BookPage.css";
 
 function BookPage() {
     const location = useLocation()

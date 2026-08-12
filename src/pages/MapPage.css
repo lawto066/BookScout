@@ -1,0 +1,839 @@
+/* =========================
+MapPage.jsx
+========================= */
+
+.map-page {
+    position: relative;
+
+    width: 100%;
+    min-height: 100dvh;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+Map.jsx
+========================= */
+
+#map {
+    width: 100%;
+    height: 100dvh;
+
+    background: #e6e6e6;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+.leaflet-control-zoom {
+    margin-top: 4.5rem !important;
+    margin-right: 0.75rem !important;
+}
+
+
+/* =========================
+SearchBooks.jsx
+========================= */
+
+#search-books {
+    position: fixed;
+
+    top: 3.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: min(90%, 26rem);
+    height: 3rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    padding: 0.375rem;
+
+    background: rgba(255, 255, 255, 0.8);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-md);
+
+    z-index: 9999;
+}
+
+#search-books input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 0.5rem 0.75rem;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font-size: 0.9375rem;
+}
+
+#search-books input::placeholder {
+    color: var(--text-muted);
+}
+
+#book-search-input {
+    position: relative;
+    width: 100%;
+}
+
+#book-search-input input {
+    width: 100%;
+    padding-right: 2.5rem;
+}
+
+#clear-book-search {
+    position: absolute;
+    top: 0.1rem;
+    right: 0;
+
+    width: 2rem;
+    height: calc(100% - 0.75rem);
+
+    border: none;
+    background: transparent;
+
+    color: rgb(218, 218, 218);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* =========================
+Search Results
+========================= */
+
+#search-results-dropdown {
+    position: absolute;
+
+    top: calc(100% + 0.5rem);
+    left: 0;
+
+    width: 100%;
+    max-height: 50dvh;
+
+    overflow-y: auto;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-md);
+
+    z-index: 1000;
+}
+
+.search-result {
+    padding: 0.75rem 0.875rem;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result:hover {
+    background: var(--teal-light);
+}
+
+.search-result p {
+    margin: 0;
+
+    font-weight: 600;
+}
+
+.search-result span {
+    display: block;
+
+    margin-top: 0.2rem;
+
+    color: var(--text-muted);
+
+    font-size: 0.85rem;
+}
+
+
+/* =========================
+Filter Button
+========================= */
+
+#filter-button {
+    flex: 0 0 2.5rem;
+
+    width: 2.5rem;
+    height: 2.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: var(--green);
+    color: white;
+}
+
+#filter-button svg {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+
+/* =========================
+Map Action Buttons
+========================= */
+
+#add-library-button,
+#remove-library-button {
+    position: fixed;
+
+    bottom: 1.5rem;
+
+    padding: 0.7rem 0.9rem;
+
+    border: none;
+    border-radius: 999px;
+
+    color: white;
+
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    box-shadow: var(--shadow-md);
+
+    z-index: 1000;
+}
+
+#add-library-button {
+    right: 0.75rem;
+
+    background: var(--green);
+}
+
+#remove-library-button {
+    right: 8.5rem;
+
+    background: var(--red);
+}
+
+/* =========================
+LibraryMarker.jsx
+========================= */
+
+.custom-library-icon,
+.custom-cluster-icon {
+    background: transparent;
+    border: none;
+}
+
+.library-marker {
+    position: relative;
+
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.library-marker img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+}
+
+.remove-marker-x {
+    position: absolute;
+
+    top: -0.25rem;
+    right: -0.25rem;
+
+    width: 1.15rem;
+    height: 1.15rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--red);
+    color: white;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+
+    box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+Library Clusters
+========================= */
+
+.cluster-icon {
+    position: relative;
+
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.cluster-icon img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+}
+
+.cluster-icon span {
+    position: absolute;
+
+    top: -0.25rem;
+    right: -0.25rem;
+
+    min-width: 1.2rem;
+    height: 1.2rem;
+
+    padding: 0 0.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: var(--green);
+    color: white;
+
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+Leaflet Zoom Controls
+========================= */
+
+.leaflet-control-zoom {
+    margin-top: 8.5rem !important;
+    margin-right: 0.75rem !important;
+}
+
+/* =========================
+Search Results
+========================= */
+
+#search-results-dropdown {
+    position: absolute;
+
+    top: calc(100% + 0.5rem);
+    left: 0;
+
+    width: 100%;
+    max-height: 50dvh;
+
+    overflow-y: auto;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-md);
+
+    z-index: 1000;
+}
+
+.search-result {
+    padding: 0.75rem 0.875rem;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid var(--border);
+
+    transition: background 0.15s ease;
+}
+
+.search-result:last-child {
+    border-bottom: none;
+}
+
+.search-result:hover {
+    background: var(--teal-light);
+}
+
+.search-result:active {
+    background: #dceff2;
+}
+
+.search-result p {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
+.search-result span {
+    display: block;
+
+    margin-top: 0.2rem;
+
+    color: var(--text-muted);
+
+    font-size: 0.85rem;
+}
+
+/* =========================
+GenreFilter.jsx
+========================= */
+
+#genre-filter-overlay {
+    position: absolute;
+
+    top: calc(100% + 0.5rem);
+    left: 0;
+
+    width: 100%;
+
+    z-index: 2000;
+}
+
+#genre-filter-popup {
+    width: 100%;
+
+    padding: 1.25rem;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-md);
+
+    max-height: 65dvh;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#genre-filter-popup h2 {
+    margin-bottom: 1.25rem;
+
+    color: var(--green);
+
+    font-size: 1.1rem;
+    font-weight: 700;
+
+    text-align: left;
+}
+
+
+/* =========================
+Genre Checkboxes
+========================= */
+#genre-list {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 1.5rem;
+    row-gap: 0.75rem;
+
+    margin-bottom: 1.25rem;
+
+    max-height: 40dvh;
+    overflow-y: auto;
+
+    min-height: 0;
+}
+
+#genre-list label {
+    display: grid;
+
+    grid-template-columns: 1.5rem 1fr;
+
+    align-items: center;
+
+    column-gap: 0.6rem;
+
+    min-height: 2rem;
+
+    color: var(--text);
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+#genre-list input {
+    width: 1.25rem;
+    height: 1.25rem;
+
+    margin: 0;
+
+    accent-color: var(--teal);
+
+    cursor: pointer;
+}
+
+
+/* =========================
+Filter Buttons
+========================= */
+
+#genre-filter-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 0.625rem;
+
+    padding-top: 0.75rem;
+
+    border-top: 1px solid var(--border);
+}
+
+#genre-filter-buttons button {
+    padding: 0.65rem 1.1rem;
+
+    border: none;
+    border-radius: 999px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+#genre-filter-buttons button:first-child {
+    background: var(--teal-light);
+    color: var(--green);
+}
+
+#genre-filter-buttons button:last-child {
+    background: var(--green);
+    color: white;
+}
+
+/* =========================
+Add Library Form
+========================= */
+
+#add-library-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: min(90%, 25rem);
+    padding: 1.5rem;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+
+    z-index: 11000;
+}
+
+#add-library-form h1 {
+    margin: 0 0 1.25rem;
+
+    color: var(--green);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* =========================
+Close Button
+========================= */
+
+#close-add-library {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+
+    width: 2rem;
+    height: 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+
+    background: var(--red);
+    color: white;
+
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+}
+
+#close-add-library:hover {
+    filter: brightness(0.95);
+}
+
+#close-add-library:active {
+    transform: scale(0.94);
+}
+
+/* =========================
+Form Inputs
+========================= */
+
+#add-library-form input {
+    width: 100%;
+    padding: 0.75rem 0.875rem;
+    margin-bottom: 0.75rem;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    background: var(--surface);
+    color: var(--text);
+
+    font-size: 0.9375rem;
+    outline: none;
+}
+
+#add-library-form input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(92, 187, 199, 0.15);
+}
+
+#add-library-form input::placeholder {
+    color: var(--text-muted);
+}
+
+/* =========================
+Input Clear Buttons
+========================= */
+
+#library-name-input,
+#charter-number-input,
+#location-input-wrapper {
+    position: relative;
+}
+
+#clear-library-name,
+#clear-charter-number {
+    position: absolute;
+    top: -0.1rem;
+    right: 0;
+}
+
+#clear-location {
+    position: absolute;
+    top: -0.1rem;
+    right: 2rem;
+}
+
+#clear-library-name,
+#clear-charter-number,
+#clear-location {
+    width: 2rem;
+    height: calc(100% - 0.75rem);
+
+    border: none;
+    background: transparent;
+
+    color: rgb(218, 218, 218);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* =========================
+Location Input
+========================= */
+
+#location-input-wrapper {
+    width: 100%;
+}
+
+#location-input-wrapper input {
+    padding-right: 5rem;
+}
+
+#current-location-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 2rem;
+    height: calc(100% - 0.75rem);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+
+    background: var(--green);
+}
+
+#current-location-button img {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* =========================
+Location Suggestions
+========================= */
+
+#location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+
+    max-height: 12rem;
+    overflow-y: auto;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+
+    z-index: 12000;
+}
+
+#location-suggestions > div {
+    padding: 0.8rem 1rem;
+
+    min-height: 3.8rem;
+
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+
+    font-size: 0.9rem;
+    line-height: 1.5;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    max-height: calc(0.9rem * 1.4 * 2);
+    overflow: hidden;
+}
+
+#location-suggestions > div:last-child {
+    border-bottom: none;
+}
+
+#location-suggestions > div:hover {
+    background: var(--teal-light);
+}
+
+/* =========================
+Error
+========================= */
+
+#form-error {
+    margin: 0 0 0.75rem;
+
+    color: var(--red) !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* =========================
+Save Button
+========================= */
+
+#save-library-button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 0.25rem;
+
+    border: none;
+    border-radius: var(--radius-sm);
+
+    background: var(--green);
+    color: white;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* =========================
+Remove Library Confirmation
+========================= */
+#modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 20000;
+}
+
+#remove-library-confirmation {
+    width: 20rem;
+    padding: 1.5rem;
+
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+#remove-library-confirmation button {
+    padding: 0.7rem 1rem;
+    margin: 0.25rem;
+
+    border: none;
+    border-radius: var(--radius-sm);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#remove-library-confirmation button:first-of-type {
+    background: var(--green);
+    color: white;
+}
+
+#remove-library-confirmation button:last-of-type {
+    background: var(--red);
+    color: white;
+}

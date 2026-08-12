@@ -28,12 +28,12 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
   async function addLibrary() {
 
     if (!name.trim()) {
-      setError("Library name is required.");
+      setError("Library Name is required.");
       return;
     }
 
     if (!location_name.trim() || latitude === null || longitude === null) {
-      setError("Location is required. Please select a location from the suggestions.");
+      setError("Address is required. Please select an address from the suggestions.");
       return;
     }
 

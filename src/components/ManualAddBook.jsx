@@ -5,17 +5,12 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
 
   async function addBook() {
     if (!book.title.trim()) {
-        setError("Book title is required.");
+        setError("Title is required.");
         return;
     }
 
     if (!book.author.trim()) {
         setError("Author is required.");
-        return;
-    }
-
-    if (!book.publication_year) {
-        setError("Publication year is required.");
         return;
     }
 
@@ -91,19 +86,19 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
         />
 
         <input
-          type="number"
-          placeholder="Publication Year"
-          value={book.publication_year}
-          onChange={(e) =>
-            setBookToAdd({ ...book, publication_year: e.target.value })
-          }
-        />
-
-        <input
           placeholder="Genre"
           value={book.genre}
           onChange={(e) =>
             setBookToAdd({ ...book, genre: e.target.value })
+          }
+        />
+
+        <input
+          type="number"
+          placeholder="Publication Year (optional)"
+          value={book.publication_year}
+          onChange={(e) =>
+            setBookToAdd({ ...book, publication_year: e.target.value })
           }
         />
 

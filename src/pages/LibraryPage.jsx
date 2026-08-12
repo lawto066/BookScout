@@ -8,6 +8,8 @@ import RemoveBookConfirmation from '../components/RemoveBookConfirmation'
 
 import ScanBook from '../components/ScanBook'
 
+import "./LibraryPage.css";
+
 
 function LibraryPage() {
     const [books, setBooks] = useState([]);
