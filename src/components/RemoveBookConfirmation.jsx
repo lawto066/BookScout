@@ -1,6 +1,7 @@
 function RemoveBookConfirmation({ book, onClose, refreshBooks }) {
 
   async function removeBook() {
+    // Delete the book, refresh the library, and close the confirmation.
     await fetch(`/api/books/${book.id}`, {
         method: "DELETE",
     });

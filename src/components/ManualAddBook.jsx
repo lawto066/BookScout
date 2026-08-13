@@ -4,6 +4,7 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
   const [error, setError] = useState("");
 
   async function addBook() {
+    // Make sure the required book information has been entered.
     if (!book.title.trim()) {
         setError("Title is required.");
         return;
@@ -21,6 +22,7 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
 
     setError("");
 
+    // Send the new book to the server and add it to the library.
     await fetch("/api/books/", {
       method: "POST",
       headers: {
@@ -46,6 +48,8 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
   return (
     <div id="manual-add-overlay">
       <div id="manual-add-popup">
+
+        {/* Show why the user is adding the book manually. */}
         {bookNotFound ? (
             <>
                 <h2>Book Not Found</h2>
@@ -111,7 +115,6 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
         />
 
         {error && <p id="form-error">{error}</p>}
-
 
         <div id="manual-add-buttons">
           <button onClick={() => setShowManualAddBook(false)}>

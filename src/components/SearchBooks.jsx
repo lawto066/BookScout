@@ -11,6 +11,7 @@ function SearchBooks({ setSelectedQuery, selectedGenres, setSelectedGenres }) {
     const justSelected = useRef(false);
 
     useEffect(() => {
+        // Prevent another search when a result has just been selected.
         if (justSelected.current) {
             justSelected.current = false;
             return;
@@ -30,14 +31,49 @@ function SearchBooks({ setSelectedQuery, selectedGenres, setSelectedGenres }) {
     return (
         <div id="search-books">
             <div id="book-search-input">
-                <input placeholder="Search books or authors..." value={query} onChange={(e) => {setQuery(e.target.value); setSelectedQuery(""); if (e.target.value.length < 2) {setSearchResults([])}}} />
-                {query && <button type="button" id="clear-book-search" onClick={() => {setQuery(""); setSelectedQuery(""); setSearchResults([]);}}>×</button>}
+                <input
+                    placeholder="Search books or authors..."
+                    value={query}
+                    onChange={(e) => {
+                        setQuery(e.target.value);
+                        setSelectedQuery("");
+
+                        if (e.target.value.length < 2) {
+                            setSearchResults([]);
+                        }
+                    }}
+                />
+
+                {/* Clear the current search. */}
+                {query && (
+                    <button
+                        type="button"
+                        id="clear-book-search"
+                        onClick={() => {
+                            setQuery("");
+                            setSelectedQuery("");
+                            setSearchResults([]);
+                        }}
+                    >
+                        ×
+                    </button>
+                )}
             </div>
             
             {searchResults.length > 0 && (
                 <div id="search-results-dropdown">
                     {searchResults.map((book) => (
-                        <div key={`${book.type}-${book.id}`} className="search-result" onClick={() => {justSelected.current = true; setQuery(book.title); setSelectedQuery(book.title); setSearchResults([]);}}>
+                        <div
+                            key={`${book.type}-${book.id}`}
+                            className="search-result"
+                            onClick={() => {
+                                // Apply the selected result to the map search.
+                                justSelected.current = true;
+                                setQuery(book.title);
+                                setSelectedQuery(book.title);
+                                setSearchResults([]);
+                            }}
+                        >
                             <p>{book.title}</p>
                             <span>{book.author}</span>
                         </div>
@@ -45,12 +81,20 @@ function SearchBooks({ setSelectedQuery, selectedGenres, setSelectedGenres }) {
                 </div>
             )}
 
-            <button id="filter-button" onClick={() => setShowFilters(!showFilters)}>
+            {/* Open the genre filter. */}
+            <button
+                id="filter-button"
+                onClick={() => setShowFilters(!showFilters)}
+            >
                 <SlidersHorizontal />
             </button>
 
             {showFilters && (
-                <GenreFilter setShowFilters={setShowFilters} selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres} />
+                <GenreFilter
+                    setShowFilters={setShowFilters}
+                    selectedGenres={selectedGenres}
+                    setSelectedGenres={setSelectedGenres}
+                />
             )}
         </div>
     );

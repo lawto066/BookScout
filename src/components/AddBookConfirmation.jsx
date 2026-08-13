@@ -1,5 +1,6 @@
 function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
 
+  // Add the book to the selected library.
   async function addBook() {
     await fetch("/api/books/", {
         method: "POST",
@@ -18,6 +19,7 @@ function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
       }),
     });
 
+    // Update the library's book list after adding the book.
     await refreshBooks();
 
     onClose();

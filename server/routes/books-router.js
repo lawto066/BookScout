@@ -3,6 +3,7 @@ import pool from "../database.js";
 
 const router = express.Router();
 
+// Get all genres for the genre filter.
 router.get("/genres", async (req, res) => {
     try {
         const result = await pool.query(
@@ -17,6 +18,8 @@ router.get("/genres", async (req, res) => {
     }
 });
 
+
+// Get books for a library.
 router.get("/:library_id", async (req, res) => {
 
     try {
@@ -26,6 +29,7 @@ router.get("/:library_id", async (req, res) => {
 
         let result;
 
+        // Filter the books if a genre or search was provided.
         if (genres || query) {
             result = await pool.query(
                 `
@@ -45,6 +49,7 @@ router.get("/:library_id", async (req, res) => {
                 ]
             );
         } else {
+            // Get all books if no filters were provided.
             result = await pool.query(
                 "SELECT * FROM books WHERE library_id = $1",
                 [library_id]
@@ -58,6 +63,8 @@ router.get("/:library_id", async (req, res) => {
     }
 });
 
+
+// Add a new book to a library.
 router.post("/", async (req, res) => {
     try {
         const result = await pool.query(
@@ -85,6 +92,8 @@ router.post("/", async (req, res) => {
     }
 });
 
+
+// Remove a book.
 router.delete("/:id", async (req, res) => {
     try {
         await pool.query(

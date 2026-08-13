@@ -3,12 +3,14 @@ import pool from "../database.js";
 
 const router = express.Router();
 
+// Get libraries, with optional book filters.
 router.get("/", async (req, res) => {
     try {
         const { genres, query } = req.query;
 
         let result;
 
+        // Only show libraries with books matching the filters.
         if (genres || query) {
             result = await pool.query(
                 `
@@ -30,6 +32,7 @@ router.get("/", async (req, res) => {
             );
 
         } else {
+            // Show all libraries when no filters are selected.
             result = await pool.query(
                 `
                 SELECT
@@ -52,6 +55,8 @@ router.get("/", async (req, res) => {
     }
 });
 
+
+// Get one library by its ID.
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -73,6 +78,8 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+
+// Add a new library.
 router.post("/", async (req, res) => {
     try {
         const { name, location_name, charter_number, latitude, longitude } = req.body;
@@ -93,6 +100,8 @@ router.post("/", async (req, res) => {
     }
 });
 
+
+// Remove a library and its books.
 router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params;

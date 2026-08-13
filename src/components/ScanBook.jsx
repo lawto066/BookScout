@@ -8,6 +8,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
   const [scanning, setScanning] = useState(false);
   const [cameraReady, setCameraReady] = useState(false);
 
+  // Open the manual form when the camera is unavailable or a book cannot be found.
   function openManualAdd(reason) {
     stopScanner();
 
@@ -33,8 +34,9 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
     }
 
     setShowManualAddBook(true);
-}
+  }
 
+  // Stop the camera and reset the scanner state.
   function stopScanner() {
     if (videoRef.current?.srcObject) {
       videoRef.current.srcObject
@@ -51,12 +53,11 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
 
 
   async function startScanner() {
-    // Step 1: Check if browser supports BarcodeDetector API
+    // Use the polyfill if the browser does not support BarcodeDetector.
     if (!("BarcodeDetector" in window)) {
       window.BarcodeDetector = BarcodeDetectorPolyfill;
     }
 
-    // Step 2: Open camera
     setScanning(true);
     setStatus("Starting camera...");
 
@@ -67,44 +68,40 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
         },
       });
 
-      // wait for video element ???
+      // Give the video element time to load before attaching the camera stream.
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       videoRef.current.srcObject = stream;
 
-      // Step 3: Create barcode reader for ean 13 type // More in future?
+      // Create a barcode detector for ISBN-13 barcodes.
       const detector = new BarcodeDetector({
         formats: ["ean_13"],
       });
 
       setStatus("Scanning...");
 
-      // Step 4: Create image reader for camera frames
+      // Create a canvas to read individual frames from the camera.
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
 
-    // Keep checking camera until barcode found
+      // Keep checking camera frames until a barcode is found.
       const scan = async () => {
         if (!videoRef.current) return;
 
         if (videoRef.current.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
-          // Take frame from camera
           canvas.width = videoRef.current.videoWidth;
           canvas.height = videoRef.current.videoHeight;
 
           context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
           try {
-            // Look for barcode in picture
+            // Look for a barcode in the current camera frame.
             const barcodes = await detector.detect(canvas);
 
-            // If barcode exists
             if (barcodes.length > 0) {
-                // Step 5: get isbn found // The hobbit isbn
                 const isbn = barcodes[0].rawValue;
-                // const isbn = "9780547928227";
 
-                // Step 6: Use fetch to get API isbn response
+                // Use the ISBN to look up the book's information.
                 const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=10&key=${import.meta.env.VITE_GOOGLE_BOOKS_KEY}`);
 
                 const data = await response.json();
@@ -112,7 +109,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
                 const bookData = data.items?.[0]?.volumeInfo;
 
                 if (bookData) {
-                    // Step 7: Convert book info to BookScout format
+                    // Convert the API response into the format used by BookScout.
                     setBookToAdd({
                         title: bookData.title,
                         author: bookData.authors?.[0] || "Unknown",
@@ -123,8 +120,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
                         cover_image: bookData.imageLinks?.thumbnail || ""
                     });
 
-                    // Step 8: Show book information in confirmation popup 
-                    // User confirms information and is sent to BookScout database via AddBookConfirmatio.jsx
+                    // Show the book information so the user can confirm it.
                     setShowAddBook(true);
                 } else {
                     openManualAdd("bookNotFound");
@@ -132,7 +128,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
 
                 setStatus("Book found!");
 
-                // Step 9: Stop camera after successful scan
+                // Stop the camera after a successful scan.
                 stopScanner();
 
                 return;
@@ -142,11 +138,10 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
           }
         }
 
-        // Step 10: Check next camera frame
+        // Check the next camera frame.
         requestAnimationFrame(scan);
       };
 
-      // Step 0: Start camera frame loop
       requestAnimationFrame(scan);
 
     } catch {
@@ -160,7 +155,12 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
 
       {scanning && (
         <div id="scanner-overlay">
-          <video ref={videoRef} autoPlay playsInline onCanPlay={() => setCameraReady(true)} />
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            onCanPlay={() => setCameraReady(true)}
+          />
 
           {cameraReady && (
             <>
@@ -171,14 +171,14 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
               <div className="scanner-buttons">
                 <button onClick={stopScanner}>Cancel</button>
 
-                <button onClick={() => {openManualAdd("manual")}}>Add Manually</button>
+                <button onClick={() => {openManualAdd("manual")}}>
+                  Add Manually
+                </button>
               </div>
             </>
           )}
         </div>
       )}
-
-
     </>
   );
 }

@@ -6,11 +6,19 @@ function Navbar({ showBack = false, backTo = "/" }) {
   return (
     <nav id="navbar">
 
-      {showBack && (<button id="navbar-back" onClick={() => navigate(backTo)}>←</button>)}
+      {/* Show a back button when the page needs navigation */}
+      {showBack && (
+        <button id="navbar-back" onClick={() => navigate(backTo)}>
+          ←
+        </button>
+      )}
 
       <h2>BookScout</h2>
 
-      <button id="navbar-help" onClick={() => navigate("/help")}>?</button>
+      {/* Open the help page from any page. */}
+      <button id="navbar-help" onClick={() => navigate("/help")}>
+        ?
+      </button>
 
     </nav>
   );

@@ -1,6 +1,7 @@
 function RemoveLibraryConfirmation({ library, onClose, refreshMap, setRemoveMode }) {
 
   async function removeLibrary() {
+    // Delete the library and its books, refresh the map, and exit remove mode.
     await fetch(`/api/libraries/${library.id}`, {
       method: "DELETE",
     });

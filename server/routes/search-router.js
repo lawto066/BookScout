@@ -3,14 +3,17 @@ import pool from "../database.js";
 
 const router = express.Router();
 
+// Search for books and authors.
 router.get("/", async (req, res) => {
     try {
         const { q } = req.query;
 
+        // Return no results if there is no search query.
         if (!q) {
             return res.json([]);
         }
 
+        // Find books that match the search.
         const bookResults = await pool.query(
             `
             SELECT id, title, author, 'book' AS type
@@ -22,6 +25,7 @@ router.get("/", async (req, res) => {
             [`%${q}%`]
         );
 
+        // Find authors that match the search.
         const authorResults = await pool.query(
             `
             SELECT 
@@ -37,6 +41,7 @@ router.get("/", async (req, res) => {
             [`%${q}%`]
         );
 
+        // Combine the results and only return the first three.
         res.json([
             ...authorResults.rows,
             ...bookResults.rows

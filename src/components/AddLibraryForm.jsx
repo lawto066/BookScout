@@ -2,7 +2,7 @@ import { useState } from "react";
 import LocationAutocomplete from "../components/LocationAutocomplete"
 
 
-function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
+function AddLibraryForm({ setShowAddLibrary, setRefreshMap }) {
   const [name, setName] = useState("");
   const [location_name, setLocation] = useState("");
   const [charterNumber, setCharterNumber] = useState("");
@@ -10,6 +10,8 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
   const [longitude, setLongitude] = useState(null);
   const [error, setError] = useState("");
 
+
+  // Get the user's current location.
   async function getLocation() {
     navigator.geolocation.getCurrentPosition(async (position) => {
       const lat = position.coords.latitude;
@@ -25,6 +27,8 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
     });
   }
 
+
+  // Check the form and add the library to the database.
   async function addLibrary() {
 
     if (!name.trim()) {
@@ -53,6 +57,7 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
       }),
     });
 
+    // Refresh the map after adding the library.
     setRefreshMap(prev => !prev);
 
     setShowAddLibrary(false);
@@ -60,7 +65,7 @@ function AddLibraryForm({ skipSearch, setShowAddLibrary, setRefreshMap }) {
   
 
   return (
-    <div id="modal-overlay">g
+    <div id="modal-overlay">
       <div id="add-library-form">
 
         <button id="close-add-library" onClick={() => setShowAddLibrary(false)}>✕</button>

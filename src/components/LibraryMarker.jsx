@@ -8,6 +8,7 @@ const libraryIcon = new L.Icon({
   iconAnchor: [20, 40],
 });
 
+// Show libraries without books with a faded icon.
 const emptyLibraryIcon = new L.DivIcon({
     html: `<img src="/library.png" style="width:40px;height:40px;opacity:0.35;">`,
     iconSize: [40, 40],
@@ -15,6 +16,7 @@ const emptyLibraryIcon = new L.DivIcon({
     className: "custom-library-icon",
 });
 
+// Show a remove button on the library marker.
 const removeLibraryIcon = (hasBooks) => new L.DivIcon({
     html: `
         <div class="library-marker">
@@ -39,6 +41,7 @@ function LibraryMarker({ library, removeMode, setLibraryToRemove, selectedGenres
         if (removeMode) { 
           setLibraryToRemove(library) 
         } else { 
+          // Open the library and keep the current search filters.
           navigate(`/library/${library.id}`, { state: { selectedGenres, selectedQuery } })
         }
       }}}

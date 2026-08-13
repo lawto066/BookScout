@@ -22,19 +22,51 @@ function MapPage() {
         <div className="map-page">
             <Navbar />
 
-            <SearchBooks setSelectedQuery={setSelectedQuery} selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres}/>
+            {/* Search and filter options for the map. */}
+            <SearchBooks
+                setSelectedQuery={setSelectedQuery}
+                selectedGenres={selectedGenres}
+                setSelectedGenres={setSelectedGenres}
+            />
 
-            <Map refreshMap={refreshMap} removeMode={removeMode} setLibraryToRemove={setLibraryToRemove} selectedGenres={selectedGenres} selectedQuery={selectedQuery} />
+            {/* The map and its contents */}
+            <Map
+                refreshMap={refreshMap}
+                removeMode={removeMode}
+                setLibraryToRemove={setLibraryToRemove}
+                selectedGenres={selectedGenres}
+                selectedQuery={selectedQuery}
+            />
 
-            {showAddLibrary && <AddLibraryForm setShowAddLibrary={setShowAddLibrary} setRefreshMap={setRefreshMap} />}
+            {/* Add and remove library forms. */}
+            {showAddLibrary && (
+                <AddLibraryForm
+                    setShowAddLibrary={setShowAddLibrary}
+                    setRefreshMap={setRefreshMap}
+                />
+            )}
 
-            {libraryToRemove && (<RemoveLibraryConfirmation library={libraryToRemove} onClose={() => setLibraryToRemove(null)} refreshMap={setRefreshMap} setRemoveMode={setRemoveMode}/>)}
+            {libraryToRemove && (
+                <RemoveLibraryConfirmation
+                    library={libraryToRemove}
+                    onClose={() => setLibraryToRemove(null)}
+                    refreshMap={setRefreshMap}
+                    setRemoveMode={setRemoveMode}
+                />
+            )}
 
-            <button id="add-library-button" onClick={() => setShowAddLibrary(true)}>
+            {/* Buttons for adding and removing libraries. */}
+            <button
+                id="add-library-button"
+                onClick={() => setShowAddLibrary(true)}
+            >
                 Add Library
             </button>
 
-            <button id="remove-library-button" onClick={() => setRemoveMode(!removeMode)}>
+            <button
+                id="remove-library-button"
+                onClick={() => setRemoveMode(!removeMode)}
+            >
                 {removeMode ? "Cancel" : "Remove Library"}
             </button>
         </div>

@@ -4,6 +4,8 @@ import "./BookPage.css";
 
 function BookPage() {
     const location = useLocation()
+
+    // Get the selected book from the previous page.
     const book = location.state
 
     return (
@@ -11,7 +13,15 @@ function BookPage() {
         <Navbar showBack backTo={`/library/${book.library_id}`}/>
 
         <div id="book-details">
-        <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
+        <img
+            src={book.cover_image
+                ? (book.cover_image.startsWith("http")
+                    ? book.cover_image
+                    : `/books/${book.cover_image}`)
+                : "/books/book_not_found.jpg"
+            }
+            alt={book.title}
+        />
 
         <h1>{book.title}</h1>
 

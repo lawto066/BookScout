@@ -24,14 +24,16 @@ function LibraryPage() {
     const [libraryNotFound, setLibraryNotFound] = useState(false);
 
     const [bookToAdd, setBookToAdd] = useState(null);
-
-
     const [bookToRemove, setBookToRemove] = useState(null);
 
     const location = useLocation();
     const { id } = useParams();
+
+    // Get the search and genre filters from the map.
     const { selectedGenres = [], selectedQuery = "" } = location.state || {};
 
+
+    // Get the library information.
     useEffect(() => {
         fetch(`/api/libraries/${id}`)
             .then(response => {
@@ -45,6 +47,8 @@ function LibraryPage() {
             .catch(() => setLibraryNotFound(true));
     }, [id]);
 
+
+    // Get the books for this library using the selected filters.
     useEffect(() => {
         let url = `/api/books/${id}`;
 
@@ -64,13 +68,15 @@ function LibraryPage() {
     }, [id, selectedGenres, selectedQuery]);
 
 
-
+    // Refresh the books after adding or removing a book.
     async function refreshBooks() {
         const response = await fetch(`/api/books/${library.id}`);
         const data = await response.json();
         setBooks(data);
     }
 
+
+    // Show an error if the library could not be found.
     if (libraryNotFound) {
         return (
             <div id="library-page">
@@ -144,17 +150,47 @@ function LibraryPage() {
             </div>
 
             <div id="book-actions">
-                <button id="remove-book-button" onClick={() => setRemoveMode(!removeMode)}>{removeMode ? "Cancel" : "Remove Book"}</button>
-                <ScanBook setBookToAdd={setBookToAdd} setShowAddBook={setShowAddBook} setShowManualAddBook={setShowManualAddBook} setBookNotFound={setBookNotFound} setNoCamera={setNoCamera}/>
+                <button id="remove-book-button" onClick={() => setRemoveMode(!removeMode)}>
+                    {removeMode ? "Cancel" : "Remove Book"}
+                </button>
+
+                <ScanBook
+                    setBookToAdd={setBookToAdd}
+                    setShowAddBook={setShowAddBook}
+                    setShowManualAddBook={setShowManualAddBook}
+                    setBookNotFound={setBookNotFound}
+                    setNoCamera={setNoCamera}
+                />
             </div>
 
-            {showAddBook && bookToAdd && (<AddBookConfirmation libraryId={library.id} book={bookToAdd} onClose={() => setShowAddBook(false)} refreshBooks={refreshBooks}/>)}
+            {showAddBook && bookToAdd && (
+                <AddBookConfirmation
+                    libraryId={library.id}
+                    book={bookToAdd}
+                    onClose={() => setShowAddBook(false)}
+                    refreshBooks={refreshBooks}
+                />
+            )}
 
-            {showManualAddBook && bookToAdd && <ManualAddBook libraryId={library.id} book={bookToAdd} setBookToAdd={setBookToAdd} setShowManualAddBook={setShowManualAddBook} refreshBooks={refreshBooks} bookNotFound={bookNotFound} noCamera={noCamera} />}
+            {showManualAddBook && bookToAdd && (
+                <ManualAddBook
+                    libraryId={library.id}
+                    book={bookToAdd}
+                    setBookToAdd={setBookToAdd}
+                    setShowManualAddBook={setShowManualAddBook}
+                    refreshBooks={refreshBooks}
+                    bookNotFound={bookNotFound}
+                    noCamera={noCamera}
+                />
+            )}
 
-            {bookToRemove && (<RemoveBookConfirmation book={bookToRemove} onClose={() => setBookToRemove(null)} refreshBooks={refreshBooks}/>)}
-
-                
+            {bookToRemove && (
+                <RemoveBookConfirmation
+                    book={bookToRemove}
+                    onClose={() => setBookToRemove(null)}
+                    refreshBooks={refreshBooks}
+                />
+            )}
         </div>
     )
 }
