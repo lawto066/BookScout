@@ -1,23 +1,31 @@
 import { useState } from "react";
 
-function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, refreshBooks, bookNotFound, noCamera }) {
+function ManualAddBook({
+  libraryId,
+  book,
+  setBookToAdd,
+  setShowManualAddBook,
+  refreshBooks,
+  bookNotFound,
+  noCamera,
+}) {
   const [error, setError] = useState("");
 
   async function addBook() {
     // Make sure the required book information has been entered.
     if (!book.title.trim()) {
-        setError("Title is required.");
-        return;
+      setError("Title is required.");
+      return;
     }
 
     if (!book.author.trim()) {
-        setError("Author is required.");
-        return;
+      setError("Author is required.");
+      return;
     }
 
     if (!book.genre.trim()) {
-        setError("Genre is required.");
-        return;
+      setError("Genre is required.");
+      return;
     }
 
     setError("");
@@ -32,11 +40,13 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
         library_id: libraryId,
         title: book.title,
         author: book.author,
-        publication_year: book.publication_year ? Number(book.publication_year) : null,
+        publication_year: book.publication_year
+          ? Number(book.publication_year)
+          : null,
         genre: book.genre,
         synopsis: book.synopsis,
         isbn: book.isbn,
-        cover_image: book.cover_image
+        cover_image: book.cover_image,
       }),
     });
 
@@ -48,53 +58,46 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
   return (
     <div id="manual-add-overlay">
       <div id="manual-add-popup">
-
         {/* Show why the user is adding the book manually. */}
         {bookNotFound ? (
-            <>
-                <h2>Book Not Found</h2>
-                <p>
-                    We couldn't find this book in our database.
-                    Please add the details manually.
-                </p>
-            </>
+          <>
+            <h2>Book Not Found</h2>
+            <p>
+              We couldn't find this book in our database. Please add the details
+              manually.
+            </p>
+          </>
         ) : noCamera ? (
-            <>
-                <h2>No Camera Found</h2>
-                <p>
-                    We couldn't access your camera.
-                    Please add the book details manually.
-                </p>
-            </>
+          <>
+            <h2>No Camera Found</h2>
+            <p>
+              We couldn't access your camera. Please add the book details
+              manually.
+            </p>
+          </>
         ) : (
-            <>
-                <h2>Add Book Manually</h2>
-                <p>Enter the book information below.</p>
-            </>
+          <>
+            <h2>Add Book Manually</h2>
+            <p>Enter the book information below.</p>
+          </>
         )}
 
         <input
           placeholder="Title"
           value={book.title}
-          onChange={(e) =>
-            setBookToAdd({ ...book, title: e.target.value })
-          }
+          onChange={(e) => setBookToAdd({ ...book, title: e.target.value })}
         />
 
         <input
           placeholder="Author"
           value={book.author}
-          onChange={(e) =>
-            setBookToAdd({ ...book, author: e.target.value })
-          }
+          onChange={(e) => setBookToAdd({ ...book, author: e.target.value })}
         />
 
         <input
           placeholder="Genre"
           value={book.genre}
-          onChange={(e) =>
-            setBookToAdd({ ...book, genre: e.target.value })
-          }
+          onChange={(e) => setBookToAdd({ ...book, genre: e.target.value })}
         />
 
         <input
@@ -109,23 +112,16 @@ function ManualAddBook({ libraryId, book, setBookToAdd, setShowManualAddBook, re
         <textarea
           placeholder="Synopsis (optional)"
           value={book.synopsis}
-          onChange={(e) =>
-            setBookToAdd({ ...book, synopsis: e.target.value })
-          }
+          onChange={(e) => setBookToAdd({ ...book, synopsis: e.target.value })}
         />
 
         {error && <p id="form-error">{error}</p>}
 
         <div id="manual-add-buttons">
-          <button onClick={() => setShowManualAddBook(false)}>
-            Cancel
-          </button>
+          <button onClick={() => setShowManualAddBook(false)}>Cancel</button>
 
-          <button onClick={addBook}>
-            Add Book
-          </button>
+          <button onClick={addBook}>Add Book</button>
         </div>
-
       </div>
     </div>
   );

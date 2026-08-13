@@ -5,29 +5,29 @@ const router = express.Router();
 
 // Search for books and authors.
 router.get("/", async (req, res) => {
-    try {
-        const { q } = req.query;
+  try {
+    const { q } = req.query;
 
-        // Return no results if there is no search query.
-        if (!q) {
-            return res.json([]);
-        }
+    // Return no results if there is no search query.
+    if (!q) {
+      return res.json([]);
+    }
 
-        // Find books that match the search.
-        const bookResults = await pool.query(
-            `
+    // Find books that match the search.
+    const bookResults = await pool.query(
+      `
             SELECT id, title, author, 'book' AS type
             FROM books
             WHERE title ILIKE $1
             OR author ILIKE $1
             LIMIT 3
             `,
-            [`%${q}%`]
-        );
+      [`%${q}%`],
+    );
 
-        // Find authors that match the search.
-        const authorResults = await pool.query(
-            `
+    // Find authors that match the search.
+    const authorResults = await pool.query(
+      `
             SELECT 
                 MIN(id) AS id,
                 author AS title,
@@ -38,19 +38,15 @@ router.get("/", async (req, res) => {
             GROUP BY author
             LIMIT 3
             `,
-            [`%${q}%`]
-        );
+      [`%${q}%`],
+    );
 
-        // Combine the results and only return the first three.
-        res.json([
-            ...authorResults.rows,
-            ...bookResults.rows
-        ].slice(0, 3));
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
-    }
+    // Combine the results and only return the first three.
+    res.json([...authorResults.rows, ...bookResults.rows].slice(0, 3));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
 });
 
 export default router;

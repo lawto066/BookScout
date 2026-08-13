@@ -3,136 +3,133 @@
 ========================= */
 
 #library-page {
-    min-height: 100dvh;
+  min-height: 100dvh;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #library-not-found {
-    min-height: calc(100dvh - 4rem);
+  min-height: calc(100dvh - 4rem);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    color: var(--text-muted);
-    font-size: 1rem;
-    text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  text-align: center;
 }
-
 
 /* =========================
    Library Header
 ========================= */
 
 #library-header {
-    margin-top: 3rem;
-    padding: 1.25rem;
+  margin-top: 3rem;
+  padding: 1.25rem;
 
-    background: var(--background);
-    box-shadow: var(--shadow-lg);
+  background: var(--background);
+  box-shadow: var(--shadow-lg);
 
-    text-align: center;
+  text-align: center;
 }
 
 #library-header h1 {
-    margin: 0;
+  margin: 0;
 
-    width: 100%;
+  width: 100%;
 
-    color: var(--green);
-    font-size: clamp(0.6rem, 5vw, 1.3rem);
-    font-weight: 700;
+  color: var(--green);
+  font-size: clamp(0.6rem, 5vw, 1.3rem);
+  font-weight: 700;
 
-    white-space: nowrap;
-    overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #library-header p {
-    margin: 0.35rem 0 0;
+  margin: 0.35rem 0 0;
 
-    color: var(--text-muted);
-    font-size: 0.9rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
-
 
 /* =========================
    Book List
 ========================= */
 
 #book-list {
-    flex: 1;
+  flex: 1;
 
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 
-    padding: 1.5rem 4dvw;
+  padding: 1.5rem 4dvw;
 
-    overflow-x: auto;
+  overflow-x: auto;
 
-    background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
 
-    scroll-snap-type: x mandatory;
+  scroll-snap-type: x mandatory;
 }
-
 
 /* =========================
    Book Cards
 ========================= */
 
 .book-card {
-    flex: 0 0 58dvw;
-    min-width: 0;
+  flex: 0 0 58dvw;
+  min-width: 0;
 
-    padding: 0.75rem;
+  padding: 0.75rem;
 
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
 
-    text-align: center;
+  text-align: center;
 
-    scroll-snap-align: center;
-    cursor: pointer;
+  scroll-snap-align: center;
+  cursor: pointer;
 }
 
 .book-card img {
-    width: 100%;
-    height: 30dvh;
+  width: 100%;
+  height: 30dvh;
 
-    object-fit: contain;
-    display: block;
+  object-fit: contain;
+  display: block;
 }
 
 .book-card p {
-    height: 1.3rem;
+  height: 1.3rem;
 
-    margin: 0.75rem 0 0;
+  margin: 0.75rem 0 0;
 
-    color: var(--text);
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.3;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
 
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .book-card span {
-    display: block;
+  display: block;
 
-    margin-top: 0.1rem;
+  margin-top: 0.1rem;
 
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    line-height: 1.2;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.2;
 
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* =========================
@@ -140,35 +137,35 @@
 ========================= */
 
 #book-actions {
-    margin-top: auto;
+  margin-top: auto;
 
-    display: flex;
-    gap: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
 
-    padding: 1rem;
+  padding: 1rem;
 
-    background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 #book-actions > button {
-    flex: 1;
+  flex: 1;
 
-    padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
 
-    border: none;
-    border-radius: var(--radius-sm);
+  border: none;
+  border-radius: var(--radius-sm);
 
-    background: var(--green);
-    color: white;
+  background: var(--green);
+  color: white;
 
-    font-size: 0.95rem;
-    font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 600;
 
-    box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 #remove-book-button {
-    background: var(--red) !important;
+  background: var(--red) !important;
 }
 
 /* =========================
@@ -176,28 +173,28 @@
 ========================= */
 
 .book-card {
-    position: relative;
+  position: relative;
 }
 
 #remove-x {
-    position: absolute;
-    top: 0.2rem;
-    right: 0.4rem;
+  position: absolute;
+  top: 0.2rem;
+  right: 0.4rem;
 
-    width: 2rem;
-    height: 2rem;
+  width: 2rem;
+  height: 2rem;
 
-    border: none;
-    border-radius: 50%;
+  border: none;
+  border-radius: 50%;
 
-    background: var(--red);
-    color: white;
+  background: var(--red);
+  color: white;
 
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1;
 
-    z-index: 2;
+  z-index: 2;
 }
 
 /* =========================
@@ -205,61 +202,61 @@
 ========================= */
 
 #remove-book-confirmation {
-    width: min(90%, 25rem);
-    padding: 1.5rem;
+  width: min(90%, 25rem);
+  padding: 1.5rem;
 
-    background: var(--surface);
+  background: var(--surface);
 
-    border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg);
 
-    box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg);
 
-    text-align: center;
+  text-align: center;
 }
 
 #remove-book-confirmation img {
-    width: 8rem;
-    height: 11rem;
+  width: 8rem;
+  height: 11rem;
 
-    object-fit: contain;
+  object-fit: contain;
 
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 #remove-book-confirmation h2 {
-    margin: 0 0 0.5rem;
+  margin: 0 0 0.5rem;
 
-    color: var(--green);
-    font-size: 1.25rem;
+  color: var(--green);
+  font-size: 1.25rem;
 }
 
 #remove-book-confirmation p {
-    margin: 0 0 1.25rem;
+  margin: 0 0 1.25rem;
 
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 #remove-book-confirmation button {
-    padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
 
-    border: none;
-    border-radius: var(--radius-sm);
+  border: none;
+  border-radius: var(--radius-sm);
 
-    color: white;
+  color: white;
 
-    font-size: 0.95rem;
-    font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 600;
 
-    box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 #remove-book-confirmation button:first-of-type {
-    background: var(--green);
+  background: var(--green);
 }
 
 #remove-book-confirmation button:last-of-type {
-    margin-left: 0.5rem;
-    background: var(--red);
+  margin-left: 0.5rem;
+  background: var(--red);
 }
 
 /* =========================
@@ -267,17 +264,17 @@
 ========================= */
 
 #scanner-overlay {
-    position: fixed;
-    inset: 0;
+  position: fixed;
+  inset: 0;
 
-    width: 100dvw;
-    height: 100dvh;
+  width: 100dvw;
+  height: 100dvh;
 
-    background: black;
+  background: black;
 
-    z-index: 30000;
+  z-index: 30000;
 
-    overflow: hidden;
+  overflow: hidden;
 }
 
 /* =========================
@@ -285,10 +282,10 @@
 ========================= */
 
 #scanner-overlay video {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    object-fit: cover;
+  object-fit: cover;
 }
 
 /* =========================
@@ -296,26 +293,26 @@
 ========================= */
 
 .scan-box {
-    position: absolute;
+  position: absolute;
 
-    top: 50%;
-    left: 50%;
+  top: 50%;
+  left: 50%;
 
-    width: 75%;
-    height: 8rem;
+  width: 75%;
+  height: 8rem;
 
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
-    /* haha */
-    background:
-        linear-gradient(white, white) top left / 2rem 3px no-repeat,
-        linear-gradient(white, white) top left / 3px 2rem no-repeat,
-        linear-gradient(white, white) top right / 2rem 3px no-repeat,
-        linear-gradient(white, white) top right / 3px 2rem no-repeat,
-        linear-gradient(white, white) bottom left / 2rem 3px no-repeat,
-        linear-gradient(white, white) bottom left / 3px 2rem no-repeat,
-        linear-gradient(white, white) bottom right / 2rem 3px no-repeat,
-        linear-gradient(white, white) bottom right / 3px 2rem no-repeat;
+  /* haha */
+  background:
+    linear-gradient(white, white) top left / 2rem 3px no-repeat,
+    linear-gradient(white, white) top left / 3px 2rem no-repeat,
+    linear-gradient(white, white) top right / 2rem 3px no-repeat,
+    linear-gradient(white, white) top right / 3px 2rem no-repeat,
+    linear-gradient(white, white) bottom left / 2rem 3px no-repeat,
+    linear-gradient(white, white) bottom left / 3px 2rem no-repeat,
+    linear-gradient(white, white) bottom right / 2rem 3px no-repeat,
+    linear-gradient(white, white) bottom right / 3px 2rem no-repeat;
 }
 
 /* =========================
@@ -323,40 +320,40 @@
 ========================= */
 
 .scanner-buttons {
-    position: absolute;
+  position: absolute;
 
-    bottom: 2rem;
-    left: 0;
+  bottom: 2rem;
+  left: 0;
 
-    width: 100%;
+  width: 100%;
 
-    display: flex;
-    justify-content: space-between;
-    gap: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
 
-    padding: 0 1rem;
+  padding: 0 1rem;
 }
 
 .scanner-buttons button {
-    padding: 0.75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
 
-    border: none;
-    border-radius: var(--radius-sm);
+  border: none;
+  border-radius: var(--radius-sm);
 
-    color: white;
+  color: white;
 
-    font-size: 0.95rem;
-    font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 600;
 
-    box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md);
 }
 
 .scanner-buttons button:first-child {
-    background: var(--red);
+  background: var(--red);
 }
 
 .scanner-buttons button:last-child {
-    background: var(--green);
+  background: var(--green);
 }
 
 /* =========================
@@ -364,77 +361,77 @@
 ========================= */
 
 #manual-add-overlay {
-    position: fixed;
-    inset: 0;
+  position: fixed;
+  inset: 0;
 
-    width: 100dvw;
-    height: 100dvh;
+  width: 100dvw;
+  height: 100dvh;
 
-    background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    z-index: 20000;
+  z-index: 20000;
 }
 
 #manual-add-popup {
-    width: min(90%, 25rem);
-    max-height: 90dvh;
+  width: min(90%, 25rem);
+  max-height: 90dvh;
 
-    padding: 1.5rem;
+  padding: 1.5rem;
 
-    background: var(--surface);
+  background: var(--surface);
 
-    border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg);
 
-    box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg);
 
-    overflow-y: auto;
-    text-align: center;
+  overflow-y: auto;
+  text-align: center;
 }
 
 #manual-add-popup h2 {
-    margin: 0 0 0.5rem;
+  margin: 0 0 0.5rem;
 
-    color: var(--green);
-    font-size: 1.5rem;
+  color: var(--green);
+  font-size: 1.5rem;
 }
 
 #manual-add-popup p {
-    margin: 0 0 1.25rem;
+  margin: 0 0 1.25rem;
 
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 #manual-add-popup input,
 #manual-add-popup textarea {
-    width: 100%;
+  width: 100%;
 
-    padding: 0.75rem 0.875rem;
-    margin-bottom: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  margin-bottom: 0.75rem;
 
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 
-    background: var(--surface);
-    color: var(--text);
+  background: var(--surface);
+  color: var(--text);
 
-    font-size: 0.9375rem;
+  font-size: 0.9375rem;
 
-    outline: none;
+  outline: none;
 }
 
 #manual-add-popup textarea {
-    min-height: 6rem;
-    resize: vertical;
+  min-height: 6rem;
+  resize: vertical;
 }
 
 #manual-add-popup input:focus,
 #manual-add-popup textarea:focus {
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px rgba(92, 187, 199, 0.15);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(92, 187, 199, 0.15);
 }
 
 /* =========================
@@ -442,32 +439,32 @@
 ========================= */
 
 #manual-add-buttons {
-    display: flex;
-    gap: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
 }
 
 #manual-add-buttons button {
-    flex: 1;
+  flex: 1;
 
-    padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
 
-    border: none;
-    border-radius: var(--radius-sm);
+  border: none;
+  border-radius: var(--radius-sm);
 
-    color: white;
+  color: white;
 
-    font-size: 0.95rem;
-    font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 600;
 
-    box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 #manual-add-buttons button:first-child {
-    background: var(--red);
+  background: var(--red);
 }
 
 #manual-add-buttons button:last-child {
-    background: var(--green);
+  background: var(--green);
 }
 
 /* =========================
@@ -475,26 +472,26 @@
 ========================= */
 
 #empty-library {
-    width: 100%;
+  width: 100%;
 
-    padding: 3rem 1.5rem;
+  padding: 3rem 1.5rem;
 
-    text-align: center;
+  text-align: center;
 }
 
 #empty-library h2 {
-    margin-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
 
-    color: var(--green);
+  color: var(--green);
 
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 #empty-library p {
-    max-width: 25rem;
-    margin: 0 auto;
+  max-width: 25rem;
+  margin: 0 auto;
 
-    color: var(--text-muted);
+  color: var(--text-muted);
 
-    line-height: 1.5;
+  line-height: 1.5;
 }

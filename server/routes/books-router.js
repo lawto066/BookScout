@@ -5,34 +5,31 @@ const router = express.Router();
 
 // Get all genres for the genre filter.
 router.get("/genres", async (req, res) => {
-    try {
-        const result = await pool.query(
-            "SELECT DISTINCT genre FROM books WHERE genre IS NOT NULL AND genre != '' ORDER BY genre"
-        );
+  try {
+    const result = await pool.query(
+      "SELECT DISTINCT genre FROM books WHERE genre IS NOT NULL AND genre != '' ORDER BY genre",
+    );
 
-        res.json(result.rows.map(row => row.genre));
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
-    }
+    res.json(result.rows.map((row) => row.genre));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
 });
-
 
 // Get books for a library.
 router.get("/:library_id", async (req, res) => {
+  try {
+    const { library_id } = req.params;
 
-    try {
-        const { library_id } = req.params;
+    const { genres, query } = req.query;
 
-        const { genres, query } = req.query;
+    let result;
 
-        let result;
-
-        // Filter the books if a genre or search was provided.
-        if (genres || query) {
-            result = await pool.query(
-                `
+    // Filter the books if a genre or search was provided.
+    if (genres || query) {
+      result = await pool.query(
+        `
                 SELECT * 
                 FROM books 
                 WHERE library_id = $1
@@ -42,70 +39,63 @@ router.get("/:library_id", async (req, res) => {
                     ($3::text IS NULL OR title ILIKE $3 OR author ILIKE $3)
                 )
                 `,
-                [
-                    library_id,
-                    genres ? genres.split(",") : null,
-                    query ? `%${query}%` : null
-                ]
-            );
-        } else {
-            // Get all books if no filters were provided.
-            result = await pool.query(
-                "SELECT * FROM books WHERE library_id = $1",
-                [library_id]
-            );
-        }
-        
-        res.json(result.rows);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
+        [
+          library_id,
+          genres ? genres.split(",") : null,
+          query ? `%${query}%` : null,
+        ],
+      );
+    } else {
+      // Get all books if no filters were provided.
+      result = await pool.query("SELECT * FROM books WHERE library_id = $1", [
+        library_id,
+      ]);
     }
-});
 
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 
 // Add a new book to a library.
 router.post("/", async (req, res) => {
-    try {
-        const result = await pool.query(
-            `INSERT INTO books 
+  try {
+    const result = await pool.query(
+      `INSERT INTO books 
             (library_id, title, author, publication_year, genre, synopsis, isbn, cover_image)
             VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
             RETURNING *`,
-            [
-                req.body.library_id,
-                req.body.title,
-                req.body.author,
-                req.body.publication_year,
-                req.body.genre,
-                req.body.synopsis,
-                req.body.isbn,
-                req.body.cover_image
-            ]
-        );
+      [
+        req.body.library_id,
+        req.body.title,
+        req.body.author,
+        req.body.publication_year,
+        req.body.genre,
+        req.body.synopsis,
+        req.body.isbn,
+        req.body.cover_image,
+      ],
+    );
 
-        res.json(result.rows[0]);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
-    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
 });
-
 
 // Remove a book.
 router.delete("/:id", async (req, res) => {
-    try {
-        await pool.query(
-            "DELETE FROM books WHERE id = $1",
-            [req.params.id]
-        );
+  try {
+    await pool.query("DELETE FROM books WHERE id = $1", [req.params.id]);
 
-        res.json({ message: "Book deleted." });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
-    }
+    res.json({ message: "Book deleted." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
 });
 
 export default router;

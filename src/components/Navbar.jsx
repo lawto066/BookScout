@@ -1,11 +1,10 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 function Navbar({ showBack = false, backTo = "/" }) {
   const navigate = useNavigate();
 
   return (
     <nav id="navbar">
-
       {/* Show a back button when the page needs navigation */}
       {showBack && (
         <button id="navbar-back" onClick={() => navigate(backTo)}>
@@ -19,7 +18,6 @@ function Navbar({ showBack = false, backTo = "/" }) {
       <button id="navbar-help" onClick={() => navigate("/help")}>
         ?
       </button>
-
     </nav>
   );
 }

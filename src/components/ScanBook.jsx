@@ -2,7 +2,13 @@ import { useRef, useState } from "react";
 
 import { BarcodeDetectorPolyfill } from "@undecaf/barcode-detector-polyfill";
 
-function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookNotFound, setNoCamera }) {
+function ScanBook({
+  setBookToAdd,
+  setShowAddBook,
+  setShowManualAddBook,
+  setBookNotFound,
+  setNoCamera,
+}) {
   const videoRef = useRef(null);
   const [status, setStatus] = useState("");
   const [scanning, setScanning] = useState(false);
@@ -13,24 +19,24 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
     stopScanner();
 
     setBookToAdd({
-        title: "",
-        author: "",
-        publication_year: "",
-        genre: "",
-        synopsis: "",
-        isbn: "",
-        cover_image: ""
+      title: "",
+      author: "",
+      publication_year: "",
+      genre: "",
+      synopsis: "",
+      isbn: "",
+      cover_image: "",
     });
 
     if (reason === "noCamera") {
-        setBookNotFound(false);
-        setNoCamera(true);
+      setBookNotFound(false);
+      setNoCamera(true);
     } else if (reason === "bookNotFound") {
-        setBookNotFound(true);
-        setNoCamera(false);
+      setBookNotFound(true);
+      setNoCamera(false);
     } else {
-        setBookNotFound(false);
-        setNoCamera(false);
+      setBookNotFound(false);
+      setNoCamera(false);
     }
 
     setShowManualAddBook(true);
@@ -39,9 +45,7 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
   // Stop the camera and reset the scanner state.
   function stopScanner() {
     if (videoRef.current?.srcObject) {
-      videoRef.current.srcObject
-        .getTracks()
-        .forEach((track) => track.stop());
+      videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
 
       videoRef.current.srcObject = null;
     }
@@ -50,7 +54,6 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
     setCameraReady(false);
     setStatus("");
   }
-
 
   async function startScanner() {
     // Use the polyfill if the browser does not support BarcodeDetector.
@@ -92,46 +95,60 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
           canvas.width = videoRef.current.videoWidth;
           canvas.height = videoRef.current.videoHeight;
 
-          context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+          context.drawImage(
+            videoRef.current,
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+          );
 
           try {
             // Look for a barcode in the current camera frame.
             const barcodes = await detector.detect(canvas);
 
             if (barcodes.length > 0) {
-                const isbn = barcodes[0].rawValue;
+              const isbn = barcodes[0].rawValue;
 
-                // Use the ISBN to look up the book's information.
-                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=10&key=${import.meta.env.VITE_GOOGLE_BOOKS_KEY}`);
+              // Use the ISBN to look up the book's information.
+              const response = await fetch(
+                `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=10&key=${import.meta.env.VITE_GOOGLE_BOOKS_KEY}`,
+              );
 
-                const data = await response.json();
+              const data = await response.json();
 
-                const bookData = data.items?.[0]?.volumeInfo;
+              const bookData = data.items?.[0]?.volumeInfo;
 
-                if (bookData) {
-                    // Convert the API response into the format used by BookScout.
-                    setBookToAdd({
-                        title: bookData.title,
-                        author: bookData.authors?.[0] || "Unknown",
-                        publication_year: bookData.publishedDate ? bookData.publishedDate.substring(0, 4) : null,
-                        genre: bookData.categories?.join(", ") || "",                        
-                        synopsis: bookData.description?.value || bookData.description || bookData.excerpts?.[0]?.text || "No synopsis available",
-                        isbn: isbn,
-                        cover_image: bookData.imageLinks?.thumbnail || ""
-                    });
+              if (bookData) {
+                // Convert the API response into the format used by BookScout.
+                setBookToAdd({
+                  title: bookData.title,
+                  author: bookData.authors?.[0] || "Unknown",
+                  publication_year: bookData.publishedDate
+                    ? bookData.publishedDate.substring(0, 4)
+                    : null,
+                  genre: bookData.categories?.join(", ") || "",
+                  synopsis:
+                    bookData.description?.value ||
+                    bookData.description ||
+                    bookData.excerpts?.[0]?.text ||
+                    "No synopsis available",
+                  isbn: isbn,
+                  cover_image: bookData.imageLinks?.thumbnail || "",
+                });
 
-                    // Show the book information so the user can confirm it.
-                    setShowAddBook(true);
-                } else {
-                    openManualAdd("bookNotFound");
-                }
+                // Show the book information so the user can confirm it.
+                setShowAddBook(true);
+              } else {
+                openManualAdd("bookNotFound");
+              }
 
-                setStatus("Book found!");
+              setStatus("Book found!");
 
-                // Stop the camera after a successful scan.
-                stopScanner();
+              // Stop the camera after a successful scan.
+              stopScanner();
 
-                return;
+              return;
             }
           } catch (error) {
             console.error("Detection error:", error);
@@ -143,7 +160,6 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
       };
 
       requestAnimationFrame(scan);
-
     } catch {
       openManualAdd("noCamera");
     }
@@ -171,7 +187,11 @@ function ScanBook({ setBookToAdd, setShowAddBook, setShowManualAddBook, setBookN
               <div className="scanner-buttons">
                 <button onClick={stopScanner}>Cancel</button>
 
-                <button onClick={() => {openManualAdd("manual")}}>
+                <button
+                  onClick={() => {
+                    openManualAdd("manual");
+                  }}
+                >
                   Add Manually
                 </button>
               </div>

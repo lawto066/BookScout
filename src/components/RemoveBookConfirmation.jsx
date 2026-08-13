@@ -1,9 +1,8 @@
 function RemoveBookConfirmation({ book, onClose, refreshBooks }) {
-
   async function removeBook() {
     // Delete the book, refresh the library, and close the confirmation.
     await fetch(`/api/books/${book.id}`, {
-        method: "DELETE",
+      method: "DELETE",
     });
 
     await refreshBooks();
@@ -14,7 +13,16 @@ function RemoveBookConfirmation({ book, onClose, refreshBooks }) {
   return (
     <div id="modal-overlay">
       <div id="remove-book-confirmation">
-        <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
+        <img
+          src={
+            book.cover_image
+              ? book.cover_image.startsWith("http")
+                ? book.cover_image
+                : `/books/${book.cover_image}`
+              : "/books/book_not_found.jpg"
+          }
+          alt={book.title}
+        />
 
         <h2>{book.title}</h2>
 
@@ -23,10 +31,9 @@ function RemoveBookConfirmation({ book, onClose, refreshBooks }) {
         <button onClick={onClose}> Cancel </button>
 
         <button onClick={removeBook}> Remove </button>
-
       </div>
     </div>
-  )
+  );
 }
 
-export default RemoveBookConfirmation
+export default RemoveBookConfirmation;

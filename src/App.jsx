@@ -1,8 +1,8 @@
-import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import MapPage from './pages/MapPage'
-import LibraryPage from './pages/LibraryPage'
-import BookPage from './pages/BookPage'
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MapPage from "./pages/MapPage";
+import LibraryPage from "./pages/LibraryPage";
+import BookPage from "./pages/BookPage";
 import HelpPage from "./pages/HelpPage";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         <Route path="/help" element={<HelpPage />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,21 +1,20 @@
 function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
-
   // Add the book to the selected library.
   async function addBook() {
     await fetch("/api/books/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          library_id: libraryId,
-          title: book.title,
-          author: book.author,
-          publication_year: book.publication_year,
-          genre: book.genre,
-          synopsis: book.synopsis,
-          isbn: book.isbn,
-          cover_image: book.cover_image
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        library_id: libraryId,
+        title: book.title,
+        author: book.author,
+        publication_year: book.publication_year,
+        genre: book.genre,
+        synopsis: book.synopsis,
+        isbn: book.isbn,
+        cover_image: book.cover_image,
       }),
     });
 
@@ -28,7 +27,16 @@ function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
   return (
     <div id="modal-overlay">
       <div id="add-book-confirmation">
-        <img src={book.cover_image ? (book.cover_image.startsWith("http") ? book.cover_image : `/books/${book.cover_image}`) : "/books/book_not_found.jpg"} alt={book.title} />
+        <img
+          src={
+            book.cover_image
+              ? book.cover_image.startsWith("http")
+                ? book.cover_image
+                : `/books/${book.cover_image}`
+              : "/books/book_not_found.jpg"
+          }
+          alt={book.title}
+        />
 
         <h2>{book.title}</h2>
 
@@ -40,7 +48,7 @@ function AddBookConfirmation({ libraryId, book, onClose, refreshBooks }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default AddBookConfirmation
+export default AddBookConfirmation;

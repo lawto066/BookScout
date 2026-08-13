@@ -25,12 +25,12 @@ app.use(express.static("../dist"));
 
 // Send the React app for other pages.
 app.get("/{*splat}", (req, res) => {
-    res.sendFile("index.html", { root: "../dist" });
+  res.sendFile("index.html", { root: "../dist" });
 });
 
 // Start the server.
 const PORT = 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

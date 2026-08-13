@@ -1,11 +1,16 @@
-import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet'
+import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import L from "leaflet";
-import LibraryMarker from './LibraryMarker'
-import { useEffect, useState } from 'react'
+import LibraryMarker from "./LibraryMarker";
+import { useEffect, useState } from "react";
 
-
-function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selectedQuery }) {
+function Map({
+  refreshMap,
+  removeMode,
+  setLibraryToRemove,
+  selectedGenres,
+  selectedQuery,
+}) {
   const [libraries, setLibraries] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
 
@@ -27,57 +32,53 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selec
     }
 
     fetch(url)
-      .then(response => response.json())
-      .then(data => setLibraries(data))
-      .catch(error => console.error(error));
-
+      .then((response) => response.json())
+      .then((data) => setLibraries(data))
+      .catch((error) => console.error(error));
   }, [refreshMap, selectedGenres, selectedQuery]);
-
 
   useEffect(() => {
     // Center the map on the user's location, or use Minneapolis if location access fails.
-    navigator.geolocation.getCurrentPosition( 
+    navigator.geolocation.getCurrentPosition(
       (position) => {
         setMapCenter([position.coords.latitude, position.coords.longitude]);
       },
       () => {
-        setMapCenter([44.9778, -93.2650]);
-      }
+        setMapCenter([44.9778, -93.265]);
+      },
     );
   }, []);
 
-
   // Create a cluster icon showing how many libraries are grouped together.
   const clusterIcon = (cluster) => {
-      const hasBooks = cluster.getAllChildMarkers().some(
-          marker => marker.options.library?.has_books
-      );
+    const hasBooks = cluster
+      .getAllChildMarkers()
+      .some((marker) => marker.options.library?.has_books);
 
-      const count = cluster.getChildCount();
-      let displayCount;
+    const count = cluster.getChildCount();
+    let displayCount;
 
-      if (count < 10) {
-          displayCount = count;
-      } else if (count < 50) {
-          displayCount = "10+";
-      } else if (count < 100) {
-          displayCount = "50+";
-      } else {
-          displayCount = "100+";
-      }
+    if (count < 10) {
+      displayCount = count;
+    } else if (count < 50) {
+      displayCount = "10+";
+    } else if (count < 100) {
+      displayCount = "50+";
+    } else {
+      displayCount = "100+";
+    }
 
-      return new L.DivIcon({
-          html: `
+    return new L.DivIcon({
+      html: `
               <div class="cluster-icon" style="opacity: ${hasBooks ? 1 : 0.35};">
                   <img src="/library.png">
                   <span>${displayCount}</span>
               </div>
           `,
-          iconSize: [40, 40],
-          className: "custom-cluster-icon",
-      });
+      iconSize: [40, 40],
+      className: "custom-cluster-icon",
+    });
   };
-
 
   // Wait for the user's location before displaying the map.
   if (!mapCenter) {
@@ -92,9 +93,8 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selec
         style={{ height: "100%", width: "100%" }}
         zoomControl={false}
       >
-
         <TileLayer
-          attribution='&copy; OpenStreetMap contributors &copy; CARTO'
+          attribution="&copy; OpenStreetMap contributors &copy; CARTO"
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
 
@@ -115,10 +115,9 @@ function Map({ refreshMap, removeMode, setLibraryToRemove, selectedGenres, selec
         </MarkerClusterGroup>
 
         <ZoomControl position="topright" />
-
       </MapContainer>
     </div>
-  )
+  );
 }
 
-export default Map
+export default Map;

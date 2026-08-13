@@ -5,15 +5,15 @@ const router = express.Router();
 
 // Get libraries, with optional book filters.
 router.get("/", async (req, res) => {
-    try {
-        const { genres, query } = req.query;
+  try {
+    const { genres, query } = req.query;
 
-        let result;
+    let result;
 
-        // Only show libraries with books matching the filters.
-        if (genres || query) {
-            result = await pool.query(
-                `
+    // Only show libraries with books matching the filters.
+    if (genres || query) {
+      result = await pool.query(
+        `
                 SELECT DISTINCT
                     libraries.*,
                     EXISTS (
@@ -28,13 +28,12 @@ router.get("/", async (req, res) => {
                     AND
                     ($2::text IS NULL OR books.title ILIKE $2 OR books.author ILIKE $2)
                 `,
-                [genres ? genres.split(",") : null, query ? `%${query}%` : null]
-            );
-
-        } else {
-            // Show all libraries when no filters are selected.
-            result = await pool.query(
-                `
+        [genres ? genres.split(",") : null, query ? `%${query}%` : null],
+      );
+    } else {
+      // Show all libraries when no filters are selected.
+      result = await pool.query(
+        `
                 SELECT
                     libraries.*,
                     EXISTS (
@@ -43,85 +42,72 @@ router.get("/", async (req, res) => {
                         WHERE books.library_id = libraries.id
                     ) AS has_books
                 FROM libraries
-                `
-            );
-        }
-
-        res.json(result.rows);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
+                `,
+      );
     }
-});
 
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 
 // Get one library by its ID.
 router.get("/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        const result = await pool.query(
-            "SELECT * FROM libraries WHERE id = $1",
-            [id]
-        );
+    const result = await pool.query("SELECT * FROM libraries WHERE id = $1", [
+      id,
+    ]);
 
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: "Library not found" });
-        }
-
-        res.json(result.rows[0]);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Library not found" });
     }
-});
 
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 
 // Add a new library.
 router.post("/", async (req, res) => {
-    try {
-        const { name, location_name, charter_number, latitude, longitude } = req.body;
+  try {
+    const { name, location_name, charter_number, latitude, longitude } =
+      req.body;
 
-        const result = await pool.query(
-            `INSERT INTO libraries
+    const result = await pool.query(
+      `INSERT INTO libraries
             (name, location_name, charter_number, latitude, longitude)
             VALUES ($1, $2, $3, $4, $5)
             RETURNING *`,
-            [name, location_name, charter_number, latitude, longitude]
-        );
+      [name, location_name, charter_number, latitude, longitude],
+    );
 
-        res.json(result.rows[0]);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
-    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
 });
-
 
 // Remove a library and its books.
 router.delete("/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        await pool.query(
-            "DELETE FROM books WHERE library_id = $1",
-            [id]
-        );
+    await pool.query("DELETE FROM books WHERE library_id = $1", [id]);
 
-        await pool.query(
-            "DELETE FROM libraries WHERE id = $1",
-            [id]
-        );
+    await pool.query("DELETE FROM libraries WHERE id = $1", [id]);
 
-        res.json({ message: "Library deleted" });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
-    }
+    res.json({ message: "Library deleted" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
+  }
 });
 
 export default router;

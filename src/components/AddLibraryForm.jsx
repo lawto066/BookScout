@@ -1,6 +1,5 @@
 import { useState } from "react";
-import LocationAutocomplete from "../components/LocationAutocomplete"
-
+import LocationAutocomplete from "../components/LocationAutocomplete";
 
 function AddLibraryForm({ setShowAddLibrary, setRefreshMap }) {
   const [name, setName] = useState("");
@@ -9,7 +8,6 @@ function AddLibraryForm({ setShowAddLibrary, setRefreshMap }) {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [error, setError] = useState("");
-
 
   // Get the user's current location.
   async function getLocation() {
@@ -20,24 +18,26 @@ function AddLibraryForm({ setShowAddLibrary, setRefreshMap }) {
       setLatitude(lat);
       setLongitude(lon);
 
-      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+      );
       const data = await response.json();
 
       setLocation(data.display_name);
     });
   }
 
-
   // Check the form and add the library to the database.
   async function addLibrary() {
-
     if (!name.trim()) {
       setError("Library Name is required.");
       return;
     }
 
     if (!location_name.trim() || latitude === null || longitude === null) {
-      setError("Address is required. Please select an address from the suggestions.");
+      setError(
+        "Address is required. Please select an address from the suggestions.",
+      );
       return;
     }
 
@@ -53,50 +53,82 @@ function AddLibraryForm({ setShowAddLibrary, setRefreshMap }) {
         location_name,
         charter_number: charterNumber,
         latitude: latitude,
-        longitude: longitude
+        longitude: longitude,
       }),
     });
 
     // Refresh the map after adding the library.
-    setRefreshMap(prev => !prev);
+    setRefreshMap((prev) => !prev);
 
     setShowAddLibrary(false);
   }
-  
 
   return (
     <div id="modal-overlay">
       <div id="add-library-form">
-
-        <button id="close-add-library" onClick={() => setShowAddLibrary(false)}>✕</button>
+        <button id="close-add-library" onClick={() => setShowAddLibrary(false)}>
+          ✕
+        </button>
 
         <h1>Add Library</h1>
 
         <div id="library-name-input">
-          <input type="text" placeholder="Library Name" value={name} onChange={(e) => setName(e.target.value)} />
-          {name && <button type="button" id="clear-library-name" onClick={() => setName("")}>×</button>}
+          <input
+            type="text"
+            placeholder="Library Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          {name && (
+            <button
+              type="button"
+              id="clear-library-name"
+              onClick={() => setName("")}
+            >
+              ×
+            </button>
+          )}
         </div>
 
         <div id="location-input-wrapper">
-          <LocationAutocomplete location_name={location_name} setLocation={setLocation} setLatitude={setLatitude} setLongitude={setLongitude} />
+          <LocationAutocomplete
+            location_name={location_name}
+            setLocation={setLocation}
+            setLatitude={setLatitude}
+            setLongitude={setLongitude}
+          />
 
           <button id="current-location-button" onClick={getLocation}>
             <img src="/location.svg" alt="" />
           </button>
-
         </div>
 
         <div id="charter-number-input">
-          <input type="text" placeholder="Charter Number (optional)" value={charterNumber} onChange={(e) => setCharterNumber(e.target.value)} />
-          {charterNumber && <button type="button" id="clear-charter-number" onClick={() => setCharterNumber("")}>×</button>}
+          <input
+            type="text"
+            placeholder="Charter Number (optional)"
+            value={charterNumber}
+            onChange={(e) => setCharterNumber(e.target.value)}
+          />
+          {charterNumber && (
+            <button
+              type="button"
+              id="clear-charter-number"
+              onClick={() => setCharterNumber("")}
+            >
+              ×
+            </button>
+          )}
         </div>
 
         {error && <p id="form-error">{error}</p>}
 
-        <button id="save-library-button" onClick={addLibrary}>Save Library</button>
+        <button id="save-library-button" onClick={addLibrary}>
+          Save Library
+        </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default AddLibraryForm
+export default AddLibraryForm;

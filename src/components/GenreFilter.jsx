@@ -7,22 +7,17 @@ function GenreFilter({ setShowFilters, selectedGenres, setSelectedGenres }) {
   // Get the available genres from the database.
   useEffect(() => {
     fetch("/api/books/genres")
-        .then(response => response.json())
-        .then(data => setGenres(data))
-        .catch(error => console.error(error));
+      .then((response) => response.json())
+      .then((data) => setGenres(data))
+      .catch((error) => console.error(error));
   }, []);
 
   // Add or remove a genre from the temporary selection.
   function toggleGenre(genre) {
     if (tempGenres.includes(genre)) {
-      setTempGenres(
-        tempGenres.filter((g) => g !== genre)
-      );
+      setTempGenres(tempGenres.filter((g) => g !== genre));
     } else {
-      setTempGenres([
-        ...tempGenres,
-        genre
-      ]);
+      setTempGenres([...tempGenres, genre]);
     }
   }
 
@@ -35,7 +30,6 @@ function GenreFilter({ setShowFilters, selectedGenres, setSelectedGenres }) {
   return (
     <div id="genre-filter-overlay">
       <div id="genre-filter-popup">
-
         <h2>Filter by Genre</h2>
 
         <div id="genre-list">
@@ -56,7 +50,6 @@ function GenreFilter({ setShowFilters, selectedGenres, setSelectedGenres }) {
 
           <button onClick={applyFilters}>Apply</button>
         </div>
-
       </div>
     </div>
   );
